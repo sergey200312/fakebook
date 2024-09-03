@@ -3,6 +3,9 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const cors = require('cors');
+require('dotenv').config();
+const mongoose = require('mongoose');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -18,9 +21,23 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(cors());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+
+const mongoDB = process.env.MONGODB_URL
+mongoose.set("strictQuery", false);
+
+async function main() {
+  try {
+    await mongoose.connect(mongoDB);
+    console.log("Подключено к MongoDB");
+  } catch (err) {
+    console.error("Ошибка подключения к MongoDB", err);
+  }
+}
+main();
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
