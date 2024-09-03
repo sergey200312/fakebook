@@ -38,7 +38,7 @@ const validateResult = async(req, res, next) => {
         return res.json({ errors: errors.array() })
     }
 
-    next();
+    next(); //
 };
 
 module.exports = { registerValidator, loginValidator, validateResult }
