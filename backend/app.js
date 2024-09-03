@@ -7,8 +7,7 @@ const cors = require('cors');
 require('dotenv').config();
 const mongoose = require('mongoose');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+const authRouter = require('./routes/auth')
 
 var app = express();
 
@@ -23,8 +22,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/api', authRouter);
 
 const mongoDB = process.env.MONGODB_URL
 mongoose.set("strictQuery", false);
