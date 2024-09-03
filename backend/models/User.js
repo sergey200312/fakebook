@@ -33,7 +33,8 @@ const UserSchema = new Schema({
         ref: 'Post'
     }],
     avatar: {
-        type: String
+        type: String,
+        default: ''
     },
     friends: [{
         type: Schema.Types.ObjectId,
@@ -53,7 +54,10 @@ const UserSchema = new Schema({
     }],
     bio: {
         type: String,
-        trim: true
+        trim: true,
+        default: ''
     }
 
 })
+
+module.exports = mongoose.model('User', UserSchema);
