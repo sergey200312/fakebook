@@ -5,4 +5,6 @@ const {registerValidator, loginValidator, validateResult} = require('../middlewa
 
 router.post('/register', registerValidator, validateResult, AuthController.register);
 
+router.post('/login', loginValidator, validateResult, AuthController.login)
+
 module.exports = router;
