@@ -7,4 +7,6 @@ router.post('/register', registerValidator, validateResult, AuthController.regis
 
 router.post('/login', loginValidator, validateResult, AuthController.login)
 
+router.post('/verify', AuthController.verifyEmail);
+
 module.exports = router;
