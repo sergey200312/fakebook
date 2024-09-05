@@ -1,16 +1,17 @@
-import { BrowserRouter, Router, Route, Routes } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import './App.css'
+import RegisterPage from './pages/RegisterPage'
 
 function App() {
 
   return (
     <Router>
       <Routes>
-        <Route path='/register' element={<p1>ddg</p1>} />
+        <Route path='/register' element={<RegisterPage/>} />
       </Routes>
     </Router>
   )
 }
 
 export default App
-///
+
