@@ -18,7 +18,7 @@ export default function RegisterPage() {
             const response = await axios.post(`${import.meta.env.VITE_API_URL}/register`, {
                 firstName, lastName, email, password, confirmPassword
             });
-            if (response.ok) {
+            if (response.status === 200) {
                 navigate('/verify', {replace: true});
             }
 
