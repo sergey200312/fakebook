@@ -1,6 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react';
+import useAxios from 'axios-hooks';
+import { useNavigate } from 'react-router-dom';
+
 
 export default function LoginPage() {
+    const navgate = useNavigate();
+    
+
     return (
         <div className='flex justify-center items-center min-h-screen'>
             <div className='shadow-[#2fc481] p-8 max-w-sm shadow-2xl w-full bg-white rounded-2xl'>
