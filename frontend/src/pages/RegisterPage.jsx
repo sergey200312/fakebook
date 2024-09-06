@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function RegisterPage() {
     return (
-        <div className='flex justify-center items-center min-h-screen bg-cover bg-center'>
+        <div className='flex justify-center items-center min-h-screen'>
             <div className='shadow-[#2fc481] p-8 max-w-sm shadow-2xl w-full bg-white rounded-2xl'>
                 <h1 className='text-center text-2xl mb-6'>Регистрация</h1>
                 <form>
@@ -11,6 +11,7 @@ export default function RegisterPage() {
                             type='text'
                             id='username'
                             placeholder='Имя'
+                            required
                             className='w-full border-lime-500 focus:border-lime-600 border-b-2 focus:outline-none' />
                     </div>
                     <div className='mb-4'>
@@ -18,6 +19,7 @@ export default function RegisterPage() {
                             type='text'
                             id='email'
                             placeholder='Email'
+                            required
                             className='w-full border-lime-500 focus:border-lime-600 border-b-2 focus:outline-none' />
                     </div>
                     <div className='mb-4'>
@@ -25,6 +27,7 @@ export default function RegisterPage() {
                             type='password'
                             id='password'
                             placeholder='Пароль'
+                            required
                             className='w-full border-lime-500 focus:border-lime-600  border-b-2 focus:outline-none' />
                     </div>
                     <div className='mb-8'>
@@ -32,6 +35,7 @@ export default function RegisterPage() {
                             type='password'
                             id='confirm-password'
                             placeholder='Повторите пароль'
+                            required
                             className='w-full border-lime-500 focus:border-lime-600 border-b-2 focus:outline-none' />
                     </div>
                     <div className='flex justify-center'>
