@@ -2,13 +2,8 @@ const { body, validationResult } = require("express-validator");
 const User = require('../../models/User');
 
 const registerValidator = [
-    body('username', 'Имя пользователя обязателен').trim().notEmpty().escape()
-        .custom(async (username) => {
-            const checkUserName = await User.findOne({ username }).exec();
-            if (checkUserName) {
-                throw new Error('Это имя пользователя уже используется, придумайте другой');
-            }
-        }),
+    body('firstName', 'Имя пользователя обязательно').trim().notEmpty().escape(),
+    body('lastName', 'Фамилия пользователя обязательно').trim().notEmpty().escape(),
     body('email', 'Email обязателен').trim().isEmail().escape()
         .custom(async (email) => {
             const checkEmail = await User.findOne({ email }).exec();
@@ -27,7 +22,7 @@ const registerValidator = [
 ];
 
 const loginValidator = [
-    body('login', 'Введите логин').trim().notEmpty().escape(),
+    body('email', 'Введите email').trim().notEmpty().escape(),
     body('password', 'Введите пароль').trim().notEmpty().escape()
 ]
 
