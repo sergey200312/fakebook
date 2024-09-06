@@ -4,13 +4,21 @@ export default function RegisterPage() {
     return (
         <div className='flex justify-center items-center min-h-screen'>
             <div className='shadow-[#2fc481] p-8 max-w-sm shadow-2xl w-full bg-white rounded-2xl'>
-                <h1 className='text-center text-2xl mb-6'>Регистрация</h1>
+                <h1 className='text-center text-2xl mb-8'>Регистрация</h1>
                 <form>
                     <div className='mb-4'>
                         <input
                             type='text'
-                            id='username'
+                            id='Имя'
                             placeholder='Имя'
+                            required
+                            className='w-full border-lime-500 focus:border-lime-600 border-b-2 focus:outline-none' />
+                    </div>
+                    <div className='mb-4'>
+                        <input
+                            type='text'
+                            id='Фамилия'
+                            placeholder='Фамилия'
                             required
                             className='w-full border-lime-500 focus:border-lime-600 border-b-2 focus:outline-none' />
                     </div>
