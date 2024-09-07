@@ -1,10 +1,23 @@
 import React, { useState } from 'react';
-import useAxios from 'axios-hooks';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 
 export default function LoginPage() {
-    const navgate = useNavigate();
+    const navigate = useNavigate();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+
+        try {
+            const response = await axios.post(`${import.meta.env.VITE_API_URL}/login`, { email, password });
+
+        } catch (err) {
+            console.error('Ошибка:', err);
+        }
+    }
     
 
     return (
