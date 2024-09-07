@@ -74,6 +74,10 @@ exports.login = asyncHandler(async (req, res, next) => {
         return res.status(400).json({ message: "Некорректный email или пароль" })
     }
 
+    if (!user.isVerified) {
+        return res.status(400).json({ message: 'Аккаунт не подтвержден'})
+    }
+
     const match = await bcrypt.compare(password, user.password);
 
     if (!match) {
