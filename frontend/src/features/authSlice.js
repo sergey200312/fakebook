@@ -3,7 +3,7 @@ import AuthKitContext from "react-auth-kit/AuthContext";
 
 const initialState = {
     token: localStorage.getItem('token') || null,
-    isAuthenticated: !!localStorage.getIten('token'),
+    isAuthenticated: !!localStorage.getItem('token'),
 };
 
 const authSlice = createSlice({

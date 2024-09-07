@@ -67,6 +67,7 @@ exports.verifyEmail = asyncHandler(async(req, res, next) => {
 
 exports.login = asyncHandler(async (req, res, next) => {
     const { email, password } = req.body;
+    console.log('debbug')
 
     const user = await User.findOne({ email: email }).exec();
 
@@ -79,6 +80,7 @@ exports.login = asyncHandler(async (req, res, next) => {
     }
 
     const match = await bcrypt.compare(password, user.password);
+    console.log(match);
 
     if (!match) {
         return res.status(400).json({ message: "Некорректный email или пароль" });
