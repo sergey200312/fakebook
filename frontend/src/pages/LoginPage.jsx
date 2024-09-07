@@ -16,7 +16,7 @@ export default function LoginPage() {
                         <input
                             type='text'
                             id='email'
-                            placeholder='example@mail.ru'
+                            placeholder='Введите email'
                             required
                             className='w-full border-lime-500 focus:border-lime-600 border-b-2 focus:outline-none' />
                     </div>
@@ -24,7 +24,7 @@ export default function LoginPage() {
                         <input
                             type='password'
                             id='password'
-                            placeholder='Пароль'
+                            placeholder='Введите пароль'
                             required
                             className='w-full border-lime-500 focus:border-lime-600 border-b-2 focus:outline-none' />
                     </div>
