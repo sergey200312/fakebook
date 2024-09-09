@@ -43,8 +43,9 @@ export default function RegisterPage() {
                     <div className='mb-4'>
                         <input
                             type='text'
-                            value={firstName}
+                            value={formData.firstName}
                             onChange={handleInputChange}
+                            name='firstName'
                             id='Имя'
                             placeholder='Имя'
                             required
@@ -53,8 +54,9 @@ export default function RegisterPage() {
                     <div className='mb-4'>
                         <input
                             type='text'
-                            value={lastName}
+                            value={formData.lastName}
                             onChange={handleInputChange}
+                            name='lastName'
                             id='Фамилия'
                             placeholder='Фамилия'
                             required
@@ -63,8 +65,9 @@ export default function RegisterPage() {
                     <div className='mb-4'>
                         <input
                             type='text'
-                            value={email}
+                            value={formData.email}
                             onChange={handleInputChange}
+                            name='email'
                             id='email'
                             placeholder='Email'
                             required
@@ -73,8 +76,9 @@ export default function RegisterPage() {
                     <div className='mb-4'>
                         <input
                             type='password'
-                            value={password}
+                            value={formData.password}
                             onChange={handleInputChange}
+                            name='password'
                             id='password'
                             placeholder='Пароль'
                             required
@@ -83,8 +87,9 @@ export default function RegisterPage() {
                     <div className='mb-8'>
                         <input
                             type='password'
-                            value={handleInputChange}
-                            onChange={e => setConfirmPassword(e.target.value)}
+                            value={formData.confirmPassword}
+                            onChange={handleInputChange}
+                            name='confirmPassword'
                             id='confirm-password'
                             placeholder='Повторите пароль'
                             required

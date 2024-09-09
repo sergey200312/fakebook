@@ -44,9 +44,10 @@ export default function LoginPage() {
                     <div className='mb-4'>
                         <input
                             type='text'
-                            value={email}
+                            value={formData.email}
                             id='email'
                             onChange={handleInputChange}
+                            name='email'
                             placeholder='Введите email'
                             required
                             className='w-full border-lime-500 focus:border-lime-600 border-b-2 focus:outline-none' />
@@ -54,9 +55,10 @@ export default function LoginPage() {
                     <div className='mb-8'>
                         <input
                             type='password'
-                            value={password}
+                            value={formData.password}
                             id='password'
                             onChange={handleInputChange}
+                            name='password'
                             placeholder='Введите пароль'
                             required
                             className='w-full border-lime-500 focus:border-lime-600 border-b-2 focus:outline-none' />
