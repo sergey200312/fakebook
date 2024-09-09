@@ -8,14 +8,24 @@ import { useDispatch } from 'react-redux';
 export default function LoginPage() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [formData, setFormData] = useState({
+        email: '',
+        password: ''
+    })
+
+    const handleInputChange = (event) => {
+        const { name, value } = event.target;
+        setFormData({
+            ...formData,
+            [name]: value
+        });
+    };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
 
         try {
-            const response = await axios.post(`${import.meta.env.VITE_API_URL}/login`, { email, password });
+            const response = await axios.post(`${import.meta.env.VITE_API_URL}/login`, formData);
             console.log('debbug')
             dispatch(login(response.data.token));
             navigate('/')
@@ -36,7 +46,7 @@ export default function LoginPage() {
                             type='text'
                             value={email}
                             id='email'
-                            onChange={e => setEmail(e.target.value)}
+                            onChange={handleInputChange}
                             placeholder='Введите email'
                             required
                             className='w-full border-lime-500 focus:border-lime-600 border-b-2 focus:outline-none' />
@@ -46,7 +56,7 @@ export default function LoginPage() {
                             type='password'
                             value={password}
                             id='password'
-                            onChange={e => setPassword(e.target.value)}
+                            onChange={handleInputChange}
                             placeholder='Введите пароль'
                             required
                             className='w-full border-lime-500 focus:border-lime-600 border-b-2 focus:outline-none' />

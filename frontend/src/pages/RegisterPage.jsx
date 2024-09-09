@@ -15,7 +15,7 @@ export default function RegisterPage() {
     const navigate = useNavigate();
 
     const handleInputChange =(event) => {
-        const { name, value } = e.target;
+        const { name, value } = event.target;
         setFormData({
             ...formData,
             [name]: value
