@@ -4,20 +4,28 @@ import { useNavigate } from 'react-router-dom';
 
 
 export default function RegisterPage() {
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
+    const [formData, setFormData] = useState({
+        firstName: '',
+        lastName: '',
+        email: '',
+        password: '',
+        confirmPassword: ''
+    });
     const [errors, setErrors] = useState('');
     const navigate = useNavigate();
+
+    const handleInputChange =(event) => {
+        const { name, value } = e.target;
+        setFormData({
+            ...formData,
+            [name]: value
+        });
+    };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post(`${import.meta.env.VITE_API_URL}/register`, {
-                firstName, lastName, email, password, confirmPassword
-            });
+            const response = await axios.post(`${import.meta.env.VITE_API_URL}/register`, formData);
             if (response.status === 200) {
                 navigate('/verify', {replace: true});
             }
@@ -36,7 +44,7 @@ export default function RegisterPage() {
                         <input
                             type='text'
                             value={firstName}
-                            onChange={e => setFirstName(e.target.value)}
+                            onChange={handleInputChange}
                             id='Имя'
                             placeholder='Имя'
                             required
@@ -46,7 +54,7 @@ export default function RegisterPage() {
                         <input
                             type='text'
                             value={lastName}
-                            onChange={e => setLastName(e.target.value)}
+                            onChange={handleInputChange}
                             id='Фамилия'
                             placeholder='Фамилия'
                             required
@@ -56,7 +64,7 @@ export default function RegisterPage() {
                         <input
                             type='text'
                             value={email}
-                            onChange={e => setEmail(e.target.value)}
+                            onChange={handleInputChange}
                             id='email'
                             placeholder='Email'
                             required
@@ -66,7 +74,7 @@ export default function RegisterPage() {
                         <input
                             type='password'
                             value={password}
-                            onChange={e => setPassword(e.target.value)}
+                            onChange={handleInputChange}
                             id='password'
                             placeholder='Пароль'
                             required
@@ -75,7 +83,7 @@ export default function RegisterPage() {
                     <div className='mb-8'>
                         <input
                             type='password'
-                            value={confirmPassword}
+                            value={handleInputChange}
                             onChange={e => setConfirmPassword(e.target.value)}
                             id='confirm-password'
                             placeholder='Повторите пароль'
