@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const asyncHandler = require('express-async-handler');
 
+// Получение списка друзей
 const getAllFriends = asyncHandler(async (req, res, next) => {
     const userId = req.user.id;
 
@@ -12,6 +13,7 @@ const getAllFriends = asyncHandler(async (req, res, next) => {
     return res.status(200).json({ friends })
 });
 
+// Получение списка отправленных заявок в друзья
 const getSentFriendRequests = asyncHandler(async (req, res, next) => {
     const userId = req.user.id;
 
@@ -23,6 +25,7 @@ const getSentFriendRequests = asyncHandler(async (req, res, next) => {
     return res.status(200).json({ sentFriendReq })
 })
 
+// Получение списка запросов в друзья
 const getReceivedFriendRequests = asyncHandler(async (req, res, next) => {
     const userId = req.user.id;
 
@@ -34,6 +37,7 @@ const getReceivedFriendRequests = asyncHandler(async (req, res, next) => {
     return res.status(200).json({ receivedFriendReq })
 })
 
+// Отправка запроса в друзья
 const createFriendRequest = asyncHandler(async (req, res, next) => {
     const { receivedUserId } = req.body;
     const currentUserId = req.user.id;
@@ -57,6 +61,7 @@ const createFriendRequest = asyncHandler(async (req, res, next) => {
 
 });
 
+// Принятие запроса в друзья
 const acceptFriendRequest = asyncHandler(async (req, res, next) => {
     const { requestId } = req.params;
     const currentUserId = req.user.id;
@@ -88,6 +93,7 @@ const acceptFriendRequest = asyncHandler(async (req, res, next) => {
     return res.status(200).json({ message: 'Заявка успешно принята' })
 });
 
+// Отмена отправления заявки в друзья
 const cancelFriendRequest = asyncHandler(async (req, res, next) => {
     const { receivedUserId } = req.body;
     const currentUserId = req.user.id;
@@ -117,6 +123,7 @@ const cancelFriendRequest = asyncHandler(async (req, res, next) => {
     return res.status(200).json({ message: 'Заявка успешно отменена'})
 });
 
+// Отказ в запросе в добавления друзья
 const rejectFriendRequest = asyncHandler(async (req, res, next) => {
     const { receivedUserId } = req.body;
     const currentUserId = req.user.id;
@@ -139,6 +146,7 @@ const rejectFriendRequest = asyncHandler(async (req, res, next) => {
     return res.status(200).json({ message: 'Запрос в друзья успешно отклонен'})
 });
 
+// Удаление из друзей
 const removeFriend = asyncHandler(async (req, res, next) => {
     const { friendToRemoveId } = req.body;
     const currentUserId = req.user.id;
