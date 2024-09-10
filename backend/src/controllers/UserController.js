@@ -9,11 +9,18 @@ const getAllFriends = asyncHandler(async (req, res, next) => {
         return res.status(400).json({ message: 'Список друзей пуст'})
     }
 
-    return res.status(200).json({ message: 'Список друзей успешно найден', friends})
+    return res.status(200).json({ friends })
 });
 
 const getSentFriendRequests = asyncHandler(async (req, res, next) => {
-    const 
+    const userId = req.user.id;
+
+    const sentFriendReq = await User.findById(userId).select('friendRequests.sent');
+    if (!sentFriendReq) {
+        return res.status(400).json({ message: 'Список отправленных заявок пуст'})
+    }
+
+    return res.status(200).json({ sentFriendReq })
 })
 
 const createFriendRequest = asyncHandler(async (req, res, next) => {
