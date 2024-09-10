@@ -5,6 +5,11 @@ const createFriendRequest = asyncHandler(async (req, res, next) => {
     const { receivedUserId } = req.body;
     const currentUserId = req.user.id;
 
+    const user = await User.findById(currentUserId).exec();
+    if (user.friends.includes(receivedUserId)) {
+        return res.status(400).json({ message: 'Пользователь уже у вас в друзьях'})
+    }
+
     const existingRequest = await User.findOne({ _id: currentUserId, 'friendRequests.sent': receivedUserId }).exec();
 
     if (existingRequest) {
@@ -35,7 +40,7 @@ const acceptFriendRequest = asyncHandler(async (req, res, next) => {
     };
 
     if (!user.friendRequests.received.includes(requestId)) {
-        return res.status(400).json({ message: 'Заявка не найдена в списке полученных заявок'})
+        return res.status(404).json({ message: 'Заявка не найдена'})
     }
 
     user.friends.push(requestId);
@@ -50,8 +55,37 @@ const acceptFriendRequest = asyncHandler(async (req, res, next) => {
     return res.status(200).json({ message: 'Заявка успешно принята' })
 });
 
+const cancelFriendRequest = asyncHandler(async (req, res, next) => {
+    const { receivedUserId } = req.body;
+    const currentUserId = req.user.id;
+
+    const requester = await User.findById(receivedUserId).exec();
+
+    const user = await User.findById(currentUserId).exec();
+
+    if (!requester) {
+        return res.status(404).json({ message: 'Пользователь не найден'});
+    };
+
+    if (!requester.friendRequests.received.includes(currentUserId)) {
+        return res.status(400).json({ message: 'Заявка не найдена в полученных'});
+    };
+
+    if (!user.friendRequests.sent.includes(receivedUserId)) {
+        return res.status(400).json({ message: 'Заявка не найдена в отправленных'})
+    }
+
+    user.friendRequests.sent = user.friendRequests.sent.filter(id => id.toString() !== receivedUserId.toString());
+    requester.friendRequests.received = requester.friendRequests.received.filter(id => id.toString() !== currentUserId.toString());
+
+    await user.save();
+    await requester.save();
+
+    return res.status(200).json({ message: 'Заявка успешно отменена'})
+});
 
 module.exports = {
     createFriendRequest,
-    acceptFriendRequest
+    acceptFriendRequest,
+    cancelFriendRequest
 };

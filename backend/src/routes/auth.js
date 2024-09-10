@@ -11,7 +11,9 @@ router.post('/login', loginValidator, validateResult, AuthController.login)
 
 router.post('/verify', AuthController.verifyEmail);
 
-router.post('/friend-accept/:requestId', passport.authenticate('jwt', {session: false }), UserController.acceptFriendRequest);
+router.put('/friends/accept/:requestId', passport.authenticate('jwt', {session: false }), UserController.acceptFriendRequest);
 
-router.post('/friend-request', passport.authenticate('jwt', {session: false }), UserController.createFriendRequest);
+router.post('/friends/request', passport.authenticate('jwt', {session: false }), UserController.createFriendRequest);
+
+router.delete('/friends/cancel', passport.authenticate('jwt', {session: false }), UserController.cancelFriendRequest);
 module.exports = router;
