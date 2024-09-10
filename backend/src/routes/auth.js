@@ -16,4 +16,6 @@ router.put('/friends/accept/:requestId', passport.authenticate('jwt', {session: 
 router.post('/friends/request', passport.authenticate('jwt', {session: false }), UserController.createFriendRequest);
 
 router.delete('/friends/cancel', passport.authenticate('jwt', {session: false }), UserController.cancelFriendRequest);
+
+router.delete('/friends/reject', passport.authenticate('jwt', {session: false }), UserController.rejectFriendRequest);
 module.exports = router;

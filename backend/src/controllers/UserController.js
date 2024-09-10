@@ -84,8 +84,31 @@ const cancelFriendRequest = asyncHandler(async (req, res, next) => {
     return res.status(200).json({ message: 'Заявка успешно отменена'})
 });
 
+const rejectFriendRequest = asyncHandler(async (req, res, next) => {
+    const { receivedUserId } = req.body;
+    const currentUserId = req.user.id;
+
+    const requester = await User.findById(receivedUserId).exec();
+    if (!requester) {
+        return res.status(400).json({ message: 'Пользователь не найден'});
+    };
+
+    const user = await User.findById(currentUserId).exec();
+    if(!user.friendRequests.received.includes(receivedUserId)) {
+        return res.status(400).json({ message: 'Заявка не найдена в запросах в друзья'})
+    }
+
+    user.friendRequests.received = user.friendRequests.received.filter(id => id.toString() !== receivedUserId.toString());
+    requester.friendRequests.sent = requester.friendRequests.sent.filter(id => id.toString() !== currentUserId.toString());
+
+    Promise.all([user.save(), requester.save()]);
+
+    return res.status(200).json({ message: 'Запрос в друзья успешно отклонен'})
+});
+
 module.exports = {
     createFriendRequest,
     acceptFriendRequest,
-    cancelFriendRequest
+    cancelFriendRequest,
+    rejectFriendRequest
 };
