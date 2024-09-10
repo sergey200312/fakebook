@@ -18,4 +18,6 @@ router.post('/friends/request', passport.authenticate('jwt', {session: false }),
 router.delete('/friends/cancel', passport.authenticate('jwt', {session: false }), UserController.cancelFriendRequest);
 
 router.delete('/friends/reject', passport.authenticate('jwt', {session: false }), UserController.rejectFriendRequest);
+
+router.delete('/friends/remove', passport.authenticate('jwt', {session: false }), UserController.removeFriend);
 module.exports = router;

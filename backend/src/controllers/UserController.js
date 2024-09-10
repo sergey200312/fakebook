@@ -106,9 +106,33 @@ const rejectFriendRequest = asyncHandler(async (req, res, next) => {
     return res.status(200).json({ message: 'Запрос в друзья успешно отклонен'})
 });
 
+const removeFriend = asyncHandler(async (req, res, next) => {
+    const { friendToRemoveId } = req.body;
+    const currentUserId = req.user.id;
+
+    const user = await User.findById(currentUserId).exec();
+    
+    const friendToRemove = await User.findById(friendToRemoveId).exec();
+    if (!friendToRemove) {
+        return res.status(400).json({ message: 'Пользователь не найден'});
+    };
+
+    if (!user.friends.includes(friendToRemoveId)) {
+        return res.status(400).json({ message: 'Пользователь не найден в ваших списках друзей'});
+    };
+
+    user.friends = user.friends.filter(id => id.toString() !== friendToRemoveId.toString());
+    friendToRemove.friends = friendToRemove.friends.filter(id => id.toString() !== currentUserId.toString());
+
+    Promise.all([user.save(), friendToRemove.save()]);
+
+    return res.status(200).json({ message: 'Пользователь удален из списка ваших друзей'})
+})
+
 module.exports = {
     createFriendRequest,
     acceptFriendRequest,
     cancelFriendRequest,
-    rejectFriendRequest
+    rejectFriendRequest,
+    removeFriend
 };
