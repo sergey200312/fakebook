@@ -4,6 +4,7 @@ import RegisterPage from './pages/RegisterPage';
 import LoginPage from './pages/LoginPage';
 import VerificationEmailPage from './pages/VerificationEmailPage';
 import PrivateRoute from './components/PrivateRoute.jsx';
+import HomePage from './pages/HomePage.jsx';
 
 function App() {
 
@@ -14,7 +15,7 @@ function App() {
         <Route path='/login' element={<LoginPage />} />
         <Route path='/verify' element={<VerificationEmailPage />} />
         <Route element={<PrivateRoute />}>
-          <Route path='/dashboard' element={<h1>dgdg</h1>} />
+          <Route path='/home' element={<HomePage/>} />
         </Route>
       </Routes>
     </Router>
