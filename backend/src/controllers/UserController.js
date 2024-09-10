@@ -23,6 +23,17 @@ const getSentFriendRequests = asyncHandler(async (req, res, next) => {
     return res.status(200).json({ sentFriendReq })
 })
 
+const getReceivedFriendRequests = asyncHandler(async (req, res, next) => {
+    const userId = req.user.id;
+
+    const receivedFriendReq = await User.findById(userId).select('friendRequests.received');
+    if (!receivedFriendReq) {
+        return res.status(400).json({ message: 'Список полученных заявок пуст'})
+    }
+
+    return res.status(200).json({ receivedFriendReq })
+})
+
 const createFriendRequest = asyncHandler(async (req, res, next) => {
     const { receivedUserId } = req.body;
     const currentUserId = req.user.id;
@@ -157,5 +168,7 @@ module.exports = {
     cancelFriendRequest,
     rejectFriendRequest,
     removeFriend, 
-    getAllFriends
+    getAllFriends,
+    getSentFriendRequests,
+    getReceivedFriendRequests
 };
