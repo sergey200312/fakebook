@@ -21,5 +21,11 @@ router.delete('/friends/reject', passport.authenticate('jwt', {session: false })
 
 router.delete('/friends/remove', passport.authenticate('jwt', {session: false }), UserController.removeFriend);
 
+router.get('/friends/request/sent', passport.authenticate('jwt', {session: false }), UserController.getSentFriendRequests);
+
+router.get('/friends/request/received', passport.authenticate('jwt', {session: false }), UserController.getReceivedFriendRequests);
+
 router.get('/friends', passport.authenticate('jwt', {session: false }), UserController.getAllFriends);
+
+
 module.exports = router;
