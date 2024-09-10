@@ -1,6 +1,21 @@
 const User = require('../models/User');
 const asyncHandler = require('express-async-handler');
 
+const getAllFriends = asyncHandler(async (req, res, next) => {
+    const userId = req.user.id;
+
+    const friends = await User.findById(userId).select('friends').exec();
+    if (!friends) {
+        return res.status(400).json({ message: 'Список друзей пуст'})
+    }
+
+    return res.status(200).json({ message: 'Список друзей успешно найден', friends})
+});
+
+const getSentFriendRequests = asyncHandler(async (req, res, next) => {
+    const 
+})
+
 const createFriendRequest = asyncHandler(async (req, res, next) => {
     const { receivedUserId } = req.body;
     const currentUserId = req.user.id;
@@ -134,5 +149,6 @@ module.exports = {
     acceptFriendRequest,
     cancelFriendRequest,
     rejectFriendRequest,
-    removeFriend
+    removeFriend, 
+    getAllFriends
 };
