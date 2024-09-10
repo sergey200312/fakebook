@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const UserSchema = new Schema({
     firstName: {
         type: String,
-        required: true, 
+        required: true,
         trim: true
     },
     lastName: {
@@ -16,7 +16,8 @@ const UserSchema = new Schema({
     email: {
         type: String,
         required: true,
-        trim: true
+        trim: true,
+        unique: true
     },
     password: {
         type: String,
@@ -40,10 +41,16 @@ const UserSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User'
     }],
-    friendRequests: [{
-        type: Schema.Types.ObjectId,
-        ref: 'User'
-    }],
+    friendRequests: {
+        sent: [{
+            type: Schema.Types.ObjectId,
+            ref: 'User'
+        }],
+        received: [{
+            type: Schema.Types.ObjectId,
+            ref: 'User'
+        }]
+    },
     subscriptions: [{
         type: Schema.Types.ObjectId,
         ref: 'User'
