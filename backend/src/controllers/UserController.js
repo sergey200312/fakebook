@@ -5,12 +5,12 @@ const asyncHandler = require('express-async-handler');
 const getAllFriends = asyncHandler(async (req, res, next) => {
     const userId = req.user.id;
 
-    const friends = await User.findById(userId).select('friends').exec();
-    if (!friends) {
+    const user = await User.findById(userId).select('friends').exec();
+    if (!user) {
         return res.status(400).json({ message: 'Список друзей пуст'})
     }
 
-    return res.status(200).json({ friends })
+    return res.status(200).json({ user })
 });
 
 // Получение списка отправленных заявок в друзья
