@@ -4,10 +4,21 @@ const asyncHandler = require('express-async-handler');
 // Получение списка друзей
 const getAllFriends = asyncHandler(async (req, res, next) => {
     const userId = req.user.id;
+    const searchTerm = req.query.search || '';
 
-    const user = await User.findById(userId).populate('friends', 'firstName lastName avatar').exec();
+    const user = await User.findById(userId)
+        .select('friends')
+        .populate({
+            path: 'friends',
+            match: {
+                $or: [
+                    { firstName: { $regex: searchTerm, $options: 'i'} },
+                    { lastName: { $regex: searchTerm, $options: 'i'} }
+                ]
+            }
+        }).exec();
     if (!user) {
-        return res.status(400).json({ message: 'Список друзей пуст'})
+        return res.status(400).json({ message: 'Список друзей пуст' })
     }
 
     return res.status(200).json({ user })
@@ -19,7 +30,7 @@ const getSentFriendRequests = asyncHandler(async (req, res, next) => {
 
     const sentFriendReq = await User.findById(userId).select('friendRequests.sent');
     if (!sentFriendReq) {
-        return res.status(400).json({ message: 'Список отправленных заявок пуст'})
+        return res.status(400).json({ message: 'Список отправленных заявок пуст' })
     }
 
     return res.status(200).json({ sentFriendReq })
@@ -31,7 +42,7 @@ const getReceivedFriendRequests = asyncHandler(async (req, res, next) => {
 
     const receivedFriendReq = await User.findById(userId).select('friendRequests.received');
     if (!receivedFriendReq) {
-        return res.status(400).json({ message: 'Список полученных заявок пуст'})
+        return res.status(400).json({ message: 'Список полученных заявок пуст' })
     }
 
     return res.status(200).json({ receivedFriendReq })
@@ -44,20 +55,20 @@ const createFriendRequest = asyncHandler(async (req, res, next) => {
 
     const user = await User.findById(currentUserId).exec();
     if (user.friends.includes(receivedUserId)) {
-        return res.status(400).json({ message: 'Пользователь уже у вас в друзьях'})
+        return res.status(400).json({ message: 'Пользователь уже у вас в друзьях' })
     }
 
     const existingRequest = await User.findOne({ _id: currentUserId, 'friendRequests.sent': receivedUserId }).exec();
 
     if (existingRequest) {
-        return res.status(400).json({ message: 'Вы уже отправили заявку'});
+        return res.status(400).json({ message: 'Вы уже отправили заявку' });
     }
 
-    await User.findByIdAndUpdate(receivedUserId, { $push: { 'friendRequests.received': currentUserId }}, { new: true }).exec();
+    await User.findByIdAndUpdate(receivedUserId, { $push: { 'friendRequests.received': currentUserId } }, { new: true }).exec();
 
-    await User.findByIdAndUpdate(currentUserId, { $push: { 'friendRequests.sent': receivedUserId }}, { new: true }).exec()
-    
-    return res.status(200).json({ message: 'Заявка успешно отправлена'})
+    await User.findByIdAndUpdate(currentUserId, { $push: { 'friendRequests.sent': receivedUserId } }, { new: true }).exec()
+
+    return res.status(200).json({ message: 'Заявка успешно отправлена' })
 
 });
 
@@ -69,16 +80,16 @@ const acceptFriendRequest = asyncHandler(async (req, res, next) => {
 
     const requester = await User.findById(requestId).exec();
     if (!requester) {
-        return res.status(404).json({ message: 'Заявка не найдена'})
+        return res.status(404).json({ message: 'Заявка не найдена' })
     };
 
     const user = await User.findById(currentUserId).exec();
     if (!user) {
-        return res.status(404).json({ message: 'Пользователь не найден'})
+        return res.status(404).json({ message: 'Пользователь не найден' })
     };
 
     if (!user.friendRequests.received.includes(requestId)) {
-        return res.status(404).json({ message: 'Заявка не найдена'})
+        return res.status(404).json({ message: 'Заявка не найдена' })
     }
 
     user.friends.push(requestId);
@@ -103,15 +114,15 @@ const cancelFriendRequest = asyncHandler(async (req, res, next) => {
     const user = await User.findById(currentUserId).exec();
 
     if (!requester) {
-        return res.status(404).json({ message: 'Пользователь не найден'});
+        return res.status(404).json({ message: 'Пользователь не найден' });
     };
 
     if (!requester.friendRequests.received.includes(currentUserId)) {
-        return res.status(400).json({ message: 'Заявка не найдена в полученных'});
+        return res.status(400).json({ message: 'Заявка не найдена в полученных' });
     };
 
     if (!user.friendRequests.sent.includes(receivedUserId)) {
-        return res.status(400).json({ message: 'Заявка не найдена в отправленных'})
+        return res.status(400).json({ message: 'Заявка не найдена в отправленных' })
     }
 
     user.friendRequests.sent = user.friendRequests.sent.filter(id => id.toString() !== receivedUserId.toString());
@@ -120,7 +131,7 @@ const cancelFriendRequest = asyncHandler(async (req, res, next) => {
     await user.save();
     await requester.save();
 
-    return res.status(200).json({ message: 'Заявка успешно отменена'})
+    return res.status(200).json({ message: 'Заявка успешно отменена' })
 });
 
 // Отказ в запросе в добавления друзья
@@ -130,12 +141,12 @@ const rejectFriendRequest = asyncHandler(async (req, res, next) => {
 
     const requester = await User.findById(receivedUserId).exec();
     if (!requester) {
-        return res.status(400).json({ message: 'Пользователь не найден'});
+        return res.status(400).json({ message: 'Пользователь не найден' });
     };
 
     const user = await User.findById(currentUserId).exec();
-    if(!user.friendRequests.received.includes(receivedUserId)) {
-        return res.status(400).json({ message: 'Заявка не найдена в запросах в друзья'})
+    if (!user.friendRequests.received.includes(receivedUserId)) {
+        return res.status(400).json({ message: 'Заявка не найдена в запросах в друзья' })
     }
 
     user.friendRequests.received = user.friendRequests.received.filter(id => id.toString() !== receivedUserId.toString());
@@ -143,7 +154,7 @@ const rejectFriendRequest = asyncHandler(async (req, res, next) => {
 
     Promise.all([user.save(), requester.save()]);
 
-    return res.status(200).json({ message: 'Запрос в друзья успешно отклонен'})
+    return res.status(200).json({ message: 'Запрос в друзья успешно отклонен' })
 });
 
 // Удаление из друзей
@@ -152,14 +163,14 @@ const removeFriend = asyncHandler(async (req, res, next) => {
     const currentUserId = req.user.id;
 
     const user = await User.findById(currentUserId).exec();
-    
+
     const friendToRemove = await User.findById(friendToRemoveId).exec();
     if (!friendToRemove) {
-        return res.status(400).json({ message: 'Пользователь не найден'});
+        return res.status(400).json({ message: 'Пользователь не найден' });
     };
 
     if (!user.friends.includes(friendToRemoveId)) {
-        return res.status(400).json({ message: 'Пользователь не найден в ваших списках друзей'});
+        return res.status(400).json({ message: 'Пользователь не найден в ваших списках друзей' });
     };
 
     user.friends = user.friends.filter(id => id.toString() !== friendToRemoveId.toString());
@@ -167,7 +178,7 @@ const removeFriend = asyncHandler(async (req, res, next) => {
 
     Promise.all([user.save(), friendToRemove.save()]);
 
-    return res.status(200).json({ message: 'Пользователь удален из списка ваших друзей'})
+    return res.status(200).json({ message: 'Пользователь удален из списка ваших друзей' })
 })
 
 module.exports = {
@@ -175,7 +186,7 @@ module.exports = {
     acceptFriendRequest,
     cancelFriendRequest,
     rejectFriendRequest,
-    removeFriend, 
+    removeFriend,
     getAllFriends,
     getSentFriendRequests,
     getReceivedFriendRequests
