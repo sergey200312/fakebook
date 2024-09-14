@@ -5,7 +5,7 @@ const asyncHandler = require('express-async-handler');
 const getAllFriends = asyncHandler(async (req, res, next) => {
     const userId = req.user.id;
 
-    const user = await User.findById(userId).select('friends').exec();
+    const user = await User.findById(userId).populate('friends', 'firstName lastName avatar').exec();
     if (!user) {
         return res.status(400).json({ message: 'Список друзей пуст'})
     }

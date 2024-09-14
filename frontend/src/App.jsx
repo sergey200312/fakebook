@@ -4,7 +4,8 @@ import RegisterPage from './pages/RegisterPage';
 import LoginPage from './pages/LoginPage';
 import VerificationEmailPage from './pages/VerificationEmailPage';
 import PrivateRoute from './components/PrivateRoute.jsx';
-import HomePage from './pages/HomePage.jsx';
+import FriendsPage from './pages/FriendsPage.jsx';
+import FriendsList from './components/FriendsList.jsx';
 
 function App() {
 
@@ -15,7 +16,7 @@ function App() {
         <Route path='/login' element={<LoginPage />} />
         <Route path='/verify' element={<VerificationEmailPage />} />
         <Route element={<PrivateRoute />}>
-          <Route path='/home' element={<HomePage/>} />
+          <Route path='/friends' element={<FriendsPage/>} />
         </Route>
       </Routes>
     </Router>

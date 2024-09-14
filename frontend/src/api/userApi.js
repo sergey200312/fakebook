@@ -1,6 +1,7 @@
-import axiosInstance from './axiosInstance';
+import { axiosInstance } from './axiosInstance';
 
-const fetchFriends = async () => {
-    const { data } = axiosInstance.get('/friends');
-    return data;
-}
+
+export const fetchFriends = async () => {
+    const response = await axiosInstance.get('/friends');
+    return response.data;
+};
