@@ -1,14 +1,13 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useQuery } from 'react-query';
-import { fetchFriends } from '../api/userApi';
+import { fetchFriends, fetchSentFriendsRequest } from '../api/userApi';
 import FriendItem from './FriendItem';
 import Layout from './Layout';
 
 export default function FriendsList() {
-    console.log('list')
 
-
-    const { data, isLoading } = useQuery(['friends'], fetchFriends);
+    const { data, isLoading } = useQuery(['friends'], fetchSentFriendsRequest);
+    console.log(data);
 
 
 
