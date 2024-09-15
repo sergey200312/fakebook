@@ -1,9 +1,8 @@
 import { axiosInstance } from './axiosInstance';
 
 
-export const fetchFriends = async (searchTerm = '') => {
-    const params = searchTerm ? { search: searchTerm } : {};
+export const fetchFriends = async () => {
 
-    const response = await axiosInstance.get('/friends', { params });
+    const response = await axiosInstance.get(`/friends`);
     return response.data;
 };

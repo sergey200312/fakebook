@@ -28,7 +28,7 @@ const getAllFriends = asyncHandler(async (req, res, next) => {
 const getSentFriendRequests = asyncHandler(async (req, res, next) => {
     const userId = req.user.id;
 
-    const sentFriendReq = await User.findById(userId).select('friendRequests.sent');
+    const sentFriendReq = await User.findById(userId).select('friendRequests.sent').populate('friendRequests.sent').exec()
     if (!sentFriendReq) {
         return res.status(400).json({ message: 'Список отправленных заявок пуст' })
     }
