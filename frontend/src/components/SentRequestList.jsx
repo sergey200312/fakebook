@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React from 'react';
 import { useQuery } from 'react-query';
-import { fetchFriends, fetchSentFriendsRequest } from '../api/userApi';
+import { fetchSentFriendsRequest } from '../api/userApi';
 import FriendItem from './FriendItem';
-import Layout from './Layout';
+import Navbar from './Navbar';
 
-export default function FriendsList() {
+export default function SentRequestList() {
 
     const { data, isLoading } = useQuery(['friends'], fetchSentFriendsRequest);
     console.log(data);
@@ -15,9 +15,10 @@ export default function FriendsList() {
 
     return (
             <div className='ml-8 w-full flex flex-col p-4 bg-gray-800 rounded-xl'>
-                <h1 className='mt-5 text-white text-center'>Список друзей</h1>
+                <Navbar />
+                <h1 className='mt-5 text-white text-center'>Отправленные запросы</h1>
                 <div className='mt-8 p-4 '>
-                    <FriendItem friends={data?.user?.friends || []} />
+                    <FriendItem friends={data?.sentFriendReq?.friendRequests?.sent || []} />
                 </div>
             </div>
     );

@@ -5,18 +5,18 @@ const FriendItem = React.memo(({ friends }) => {
     console.log('FriendItem render');
 
     return (
-        <ul>
+        <div className='grid grid-cols-3 gap-4'>
             {friends.map(friend => (
-                <li key={friend._id} className='text-white flex items-center mb-4'>
+                <div key={friend._id} className='flex flex-col text-white  items-center mb-4'>
                     <img
                         src={friend.avatar || 'default-avatar.png'}
                         alt='изображение'
                         className='w-12 h-12 rounded-full mr-4'
                     />
                     <p>{friend.firstName} {friend.lastName}</p>
-                </li>
+                </div>
             ))}
-        </ul>
+        </div>
     );
 });
 

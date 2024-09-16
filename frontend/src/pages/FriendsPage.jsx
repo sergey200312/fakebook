@@ -8,9 +8,7 @@ export default function FriendsPage() {
 
     return (
         <Layout>
-            <Sidebar/>
-            <FriendsList/>
-            <Navbar/>
+            <FriendsList />
         </Layout>
     )
 }
