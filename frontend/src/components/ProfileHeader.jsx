@@ -3,6 +3,7 @@ import { useQuery } from 'react-query';
 import { fetchProfileDetails } from '../api/userApi';
 import { useParams } from 'react-router-dom';
 import { formattedDate } from '../utils/DateFormatter';
+import ProfileActions from './ProfileActions';
 
 export default function ProfileHeader() {
 
@@ -32,6 +33,9 @@ export default function ProfileHeader() {
                         alt={`${data?.user?.firstName} ${data?.user?.lastName}`}
                     />
                 </div>
+            </div>
+            <div>
+                <ProfileActions />
             </div>
         </div>
     )

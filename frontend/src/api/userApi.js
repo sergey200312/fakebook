@@ -18,3 +18,7 @@ export const fetchProfileDetails = async (id) => {
 
     return response.data;
 }
+
+export const sendFriendRequest = async (id) => {
+    const response = await axiosInstance.post('/friends/request', { receivedUserId: id });
+}
