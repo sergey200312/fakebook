@@ -69,44 +69,36 @@ const createFriendRequest = asyncHandler(async (req, res, next) => {
     const { receivedUserId } = req.body;
     const currentUserId = req.user.id;
 
-    const user = await User.findById(currentUserId);
+    const user = await User.findById(currentUserId).exec();
     if (user.friends.includes(receivedUserId)) {
         return res.status(400).json({ message: 'Пользователь уже у вас в друзьях' });
     }
 
-    const existingRequest = await User.findOne({ _id: currentUserId, 'friendRequests.sent': receivedUserId });
+    const existingRequest = await User.findOne({ _id: currentUserId, 'friendRequests.sent': receivedUserId }).exec();
     if (existingRequest) {
         return res.status(400).json({ message: 'Вы уже отправили заявку' });
     }
 
-    // Создаем и начинаем сессию
-    const session = await mongoose.startSession();
-    session.startTransaction();
-
     try {
-        // Выполняем операции в рамках транзакции
-        await User.findByIdAndUpdate(receivedUserId, 
-            { $push: { 'friendRequests.received': currentUserId, subscribers: currentUserId } }, 
-            { new: true, session }
-        );
+        await User.findByIdAndUpdate(
+            receivedUserId,
+            { $push: { 'friendRequests.received': currentUserId, subscribers: currentUserId } },
+            { new: true }
+        ).exec();
 
-        await User.findByIdAndUpdate(currentUserId, 
-            { $push: { 'friendRequests.sent': receivedUserId, subscriptions: receivedUserId } }, 
-            { new: true, session }
-        );
-
-        // Коммит транзакции
-        await session.commitTransaction();
-        session.endSession();
+        await User.findByIdAndUpdate(
+            currentUserId,
+            { $push: { 'friendRequests.sent': receivedUserId, subscriptions: receivedUserId } },
+            { new: true }
+        ).exec();
 
         return res.status(200).json({ message: 'Заявка успешно отправлена' });
     } catch (error) {
-        // Откат транзакции в случае ошибки
-        await session.abortTransaction();
-        session.endSession();
+        console.error('Ошибка при отправке запроса:', error);
         return res.status(500).json({ message: 'Ошибка при отправке запроса в друзья' });
     }
 });
+
 
 // Принятие запроса в друзья
 const acceptFriendRequest = asyncHandler(async (req, res, next) => {
