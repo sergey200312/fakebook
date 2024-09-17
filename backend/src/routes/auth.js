@@ -27,5 +27,7 @@ router.get('/friends/request/received', passport.authenticate('jwt', {session: f
 
 router.get('/friends', passport.authenticate('jwt', {session: false }), UserController.getAllFriends);
 
+router.get('/profile/:id', UserController.getProfileDetails);
+
 
 module.exports = router;
