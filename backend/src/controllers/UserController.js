@@ -11,7 +11,11 @@ const getProfileDetails = asyncHandler(async (req, res, next) => {
         return res.status(404).json({ message: 'Страница не найдена' });
     }
 
-    return res.status(200).json({ message: 'Профиль успешно найден', user })
+    const friendsCount = user.friends.length;
+    const subscribersCount = user.subscribers.length;
+    const subscriptionsCount = user.subscribers.length;
+
+    return res.status(200).json({ message: 'Профиль успешно найден', user, friendsCount, subscribersCount, subscriptionsCount })
     
 })
 // Получение списка друзей
