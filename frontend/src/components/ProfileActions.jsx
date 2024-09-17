@@ -1,32 +1,57 @@
-import React from 'react'
-import { useMutation } from 'react-query';
+import React, { useState, useEffect } from 'react'
+import { useMutation, useQueryClient } from 'react-query';
 import { useParams } from 'react-router-dom';
-import { sendFriendRequest } from '../api/userApi';
+import { cancelFriendRequest, sendFriendRequest } from '../api/userApi';
 
-export default function ProfileActions() {
+export default function ProfileActions( { friendStatus } ) {
     const { id } = useParams();
+    const [requestSent, setRequestSent] = useState(friendStatus);
+    console.log(requestSent)
 
-    const mutation = useMutation(() => sendFriendRequest(id), {
+    useEffect(() => {
+        setRequestSent(friendStatus);
+    }, [friendStatus]);
+
+
+    const sendRequestMutation = useMutation(() => sendFriendRequest(id), {
         onSuccess: (data) => {
+            setRequestSent(true);
             console.log('Запрос отправлен:', data)
+            console.log(requestSent)
         },
         onError: (error) => {
             console.error('Ошибка отправки запроса:', error)
         }
     });
 
+    const cancelRequestMutation = useMutation(() => cancelFriendRequest(id), {
+        onSuccess: (data) => {
+            setRequestSent(false);
+            console.log('Запрос отменен')
+            console.log(requestSent)
+        },
+        onError: (error) => {
+            console.log('Ошибка при отмене запроса')
+        }
+    })
+
     const handleSubmit = (event) => {
         event.preventDefault();
-        mutation.mutate();
+        if (requestSent) {
+            cancelRequestMutation.mutate();
+        } else {
+            sendRequestMutation.mutate();
+        }
+
         console.log('click')
 
     }
   return (
     <>
         <button 
-        type='sumbit' 
+        type='button' 
         onClick={handleSubmit}
-        className='p-1 bg-lime-500 rounded-lg text-white hover:bg-lime-800'>Отправить запрос в друзья</button>
+        className='p-1 bg-lime-500 rounded-lg text-white hover:bg-lime-800'>{requestSent? 'Отменить запрос' : 'Отправить запрос'}</button>
     </>
   )
 }

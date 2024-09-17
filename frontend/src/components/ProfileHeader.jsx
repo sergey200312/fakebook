@@ -35,7 +35,7 @@ export default function ProfileHeader() {
                 </div>
             </div>
             <div>
-                <ProfileActions />
+                <ProfileActions friendStatus={data?.friendStatus}/>
             </div>
         </div>
     )

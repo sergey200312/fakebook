@@ -4,17 +4,21 @@ const asyncHandler = require('express-async-handler');
 
 const getProfileDetails = asyncHandler(async (req, res, next) => {
     const { id } = req.params;
+     const userId = req.user.id;
 
-    const user = await User.findById(id).exec()
+    const user = await User.findById(id).exec();
+    const currentUser = await User.findById(userId).exec();
 
     if (!user) {
         return res.status(404).json({ message: 'Страница не найдена' });
     }
 
+    const friendStatus = currentUser.friendRequests.sent.includes(id.toString())
+
     const friendsCount = user.friends.length;
     const subscriptionsCount = user.subscribers.length;
 
-    return res.status(200).json({ message: 'Профиль успешно найден', user, friendsCount, subscriptionsCount })
+    return res.status(200).json({ message: 'Профиль успешно найден', user, friendsCount, subscriptionsCount, friendStatus })
     
 })
 // Получение списка друзей
@@ -135,9 +139,11 @@ const acceptFriendRequest = asyncHandler(async (req, res, next) => {
     return res.status(200).json({ message: 'Заявка успешно принята' })
 });
 
+
+
 // Отмена отправления заявки в друзья
 const cancelFriendRequest = asyncHandler(async (req, res, next) => {
-    const { receivedUserId } = req.body;
+    const { receivedUserId } = req.query;
     const currentUserId = req.user.id;
 
     const requester = await User.findById(receivedUserId).exec();

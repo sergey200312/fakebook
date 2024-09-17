@@ -26,7 +26,9 @@ export const sendFriendRequest = async (id) => {
 }
 
 export const cancelFriendRequest = async (id) => {
-    const response = await axiosInstance.delete('/friends/cancel', { receivedUserId: id });
+    const response = await axiosInstance.delete('/friends/cancel', {
+        params: { receivedUserId: id }
+    });
 
     return response.data;
 }
