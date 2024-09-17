@@ -19,13 +19,15 @@ export default function ProfileHeader() {
                         <div className='text-white'>Загрузка...</div> :
                         <div>
                             <p className='text-white mb-2'>{data?.user?.firstName} {data?.user?.lastName}</p>
-                            <p className='text-white'>{formattedDate(data?.user?.createdAt)}</p>
+                            <p className='text-white mb-2'>{formattedDate(data?.user?.createdAt)}</p>
+                            <p className='text-white mb-2'>{data.friendsCount} Друзья</p>
+                            <p className='text-white mb-2'>{data.subscriptionsCount} Подписчики</p>
                         </div>
 
                     }
                 </div>
                 <div>
-                    <img className='h-40 rounded-full'
+                    <img className='h-48 rounded-full'
                         src={data?.user?.avatar}
                         alt={`${data?.user?.firstName} ${data?.user?.lastName}`}
                     />
