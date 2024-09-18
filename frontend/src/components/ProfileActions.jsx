@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useMutation, useQueryClient } from 'react-query';
 import { useParams } from 'react-router-dom';
-import { cancelFriendRequest, sendFriendRequest } from '../api/userApi';
+import { cancelFriendRequest, removeFriends, sendFriendRequest } from '../api/userApi';
 
 export default function ProfileActions( { sentRequestStatus, friendStatus } ) {
     const { id } = useParams();
@@ -16,6 +16,15 @@ export default function ProfileActions( { sentRequestStatus, friendStatus } ) {
         setIsFriend(friendStatus);
     }, [sentRequestStatus, isFriend]);
 
+    const removeFriendMutation = useMutation(() => removeFriends(id), {
+        onSuccess: (data) => {
+            setIsFriend(false);
+            console.log('Пользователь удален из друзей', data);
+        },
+        onError: (error) => {
+            console.log('Ошибка при удалении из друзей', error);
+        }
+    })
 
     const sendRequestMutation = useMutation(() => sendFriendRequest(id), {
         onSuccess: (data) => {
@@ -41,7 +50,9 @@ export default function ProfileActions( { sentRequestStatus, friendStatus } ) {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        if (requestSent) {
+        if (isFriend) {
+            removeFriendMutation.mutate();
+        } if (sentRequestStatus) {
             cancelRequestMutation.mutate();
         } else {
             sendRequestMutation.mutate();
