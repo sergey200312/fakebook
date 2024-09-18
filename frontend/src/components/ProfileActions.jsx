@@ -52,8 +52,10 @@ export default function ProfileActions( { sentRequestStatus, friendStatus } ) {
         event.preventDefault();
         if (isFriend) {
             removeFriendMutation.mutate();
-        } if (sentRequestStatus) {
+            console.log('remove')
+        } if (requestSent) {
             cancelRequestMutation.mutate();
+            console.log('sent')
         } else {
             sendRequestMutation.mutate();
         }
@@ -66,7 +68,7 @@ export default function ProfileActions( { sentRequestStatus, friendStatus } ) {
         <button 
         type='button' 
         onClick={handleSubmit}
-        className='p-1 bg-lime-500 rounded-lg text-white hover:bg-lime-800'>{isFriend ? 'Удалить из друзей' : sentRequestStatus ? 'Отменить запрос' : 'Отправить запрос'}</button>
+        className='p-1 bg-lime-500 rounded-lg text-white hover:bg-lime-800'>{isFriend ? 'Удалить из друзей' : requestSent ? 'Отменить запрос' : 'Отправить запрос'}</button>
     </>
   )
 }

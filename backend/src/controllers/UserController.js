@@ -15,11 +15,12 @@ const getProfileDetails = asyncHandler(async (req, res, next) => {
 
     const sentRequestStatus = currentUser.friendRequests.sent.includes(id.toString());
     const friendStatus = currentUser.friends.includes(id.toString());
+    const receivedStatus = currentUser.friendRequests.received.includes(id.toString());
 
     const friendsCount = user.friends.length;
     const subscriptionsCount = user.subscribers.length;
 
-    return res.status(200).json({ message: 'Профиль успешно найден', user, friendsCount, subscriptionsCount, sentRequestStatus, friendStatus })
+    return res.status(200).json({ message: 'Профиль успешно найден', user, friendsCount, subscriptionsCount, sentRequestStatus, friendStatus, receivedStatus })
     
 })
 // Получение списка друзей
