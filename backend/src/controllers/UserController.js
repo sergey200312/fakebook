@@ -108,7 +108,7 @@ const createFriendRequest = asyncHandler(async (req, res, next) => {
 
 // Принятие запроса в друзья
 const acceptFriendRequest = asyncHandler(async (req, res, next) => {
-    const { requestId } = req.params;
+    const { requestId } = req.body;
     const currentUserId = req.user.id;
     console.log(requestId, currentUserId);
 
