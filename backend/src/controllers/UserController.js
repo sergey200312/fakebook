@@ -203,7 +203,7 @@ const rejectFriendRequest = asyncHandler(async (req, res, next) => {
 
 // Удаление из друзей
 const removeFriend = asyncHandler(async (req, res, next) => {
-    const { friendToRemoveId } = req.body;
+    const { friendToRemoveId } = req.query;
     const currentUserId = req.user.id;
 
     const user = await User.findById(currentUserId).exec();
