@@ -3,14 +3,14 @@ import { useMutation, useQueryClient } from 'react-query';
 import { useParams } from 'react-router-dom';
 import { cancelFriendRequest, sendFriendRequest } from '../api/userApi';
 
-export default function ProfileActions( { friendStatus } ) {
+export default function ProfileActions( { sentRequestStatus } ) {
     const { id } = useParams();
-    const [requestSent, setRequestSent] = useState(friendStatus);
+    const [requestSent, setRequestSent] = useState(sentRequestStatus);
     console.log(requestSent)
 
     useEffect(() => {
-        setRequestSent(friendStatus);
-    }, [friendStatus]);
+        setRequestSent(sentRequestStatus);
+    }, [sentRequestStatus]);
 
 
     const sendRequestMutation = useMutation(() => sendFriendRequest(id), {
