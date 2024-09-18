@@ -3,14 +3,18 @@ import { useMutation, useQueryClient } from 'react-query';
 import { useParams } from 'react-router-dom';
 import { cancelFriendRequest, sendFriendRequest } from '../api/userApi';
 
-export default function ProfileActions( { sentRequestStatus } ) {
+export default function ProfileActions( { sentRequestStatus, friendStatus } ) {
     const { id } = useParams();
     const [requestSent, setRequestSent] = useState(sentRequestStatus);
-    console.log(requestSent)
+    const [isFriend, setIsFriend] = useState(friendStatus);
+
+    console.log(requestSent);
+    console.log(friendStatus);
 
     useEffect(() => {
         setRequestSent(sentRequestStatus);
-    }, [sentRequestStatus]);
+        setIsFriend(friendStatus);
+    }, [sentRequestStatus, isFriend]);
 
 
     const sendRequestMutation = useMutation(() => sendFriendRequest(id), {
@@ -51,7 +55,7 @@ export default function ProfileActions( { sentRequestStatus } ) {
         <button 
         type='button' 
         onClick={handleSubmit}
-        className='p-1 bg-lime-500 rounded-lg text-white hover:bg-lime-800'>{requestSent? 'Отменить запрос' : 'Отправить запрос'}</button>
+        className='p-1 bg-lime-500 rounded-lg text-white hover:bg-lime-800'>{isFriend ? 'Удалить из друзей' : sentRequestStatus ? 'Отменить запрос' : 'Отправить запрос'}</button>
     </>
   )
 }

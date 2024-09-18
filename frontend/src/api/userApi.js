@@ -32,3 +32,4 @@ export const cancelFriendRequest = async (id) => {
 
     return response.data;
 }
+

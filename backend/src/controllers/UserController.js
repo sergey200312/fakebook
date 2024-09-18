@@ -14,7 +14,7 @@ const getProfileDetails = asyncHandler(async (req, res, next) => {
     }
 
     const sentRequestStatus = currentUser.friendRequests.sent.includes(id.toString());
-    const friendStatus = currentUser.friends.includes(id.toString);
+    const friendStatus = currentUser.friends.includes(id.toString());
 
     const friendsCount = user.friends.length;
     const subscriptionsCount = user.subscribers.length;
