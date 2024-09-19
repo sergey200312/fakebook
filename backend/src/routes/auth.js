@@ -29,5 +29,7 @@ router.get('/friends', passport.authenticate('jwt', {session: false }), UserCont
 
 router.get('/profile/:id', passport.authenticate('jwt', {session: false }), UserController.getProfileDetails);
 
+router.get('/get-random-users', passport.authenticate('jwt', {session: false }), UserController.getRandomUsers);
+
 
 module.exports = router;

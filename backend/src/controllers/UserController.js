@@ -225,6 +225,34 @@ const removeFriend = asyncHandler(async (req, res, next) => {
     Promise.all([user.save(), friendToRemove.save()]);
 
     return res.status(200).json({ message: 'Пользователь удален из списка ваших друзей' })
+});
+
+const getRandomUsers = asyncHandler(async (req, res, next) => {
+    const currentUser = await User.findById(req.user.id).exec();
+    const total = [
+        ...currentUser.friends,
+        ...currentUser.friendRequests.sent,
+        ...currentUser.friendRequests.received
+    ];
+
+    const users = await User.aggregate([
+        {
+            $match: {
+                _id: { $ne: req.user.id },
+                _id: { $nin: total }
+            }
+        },
+        {
+            $sample: { size: 10  }
+        }
+    ]);
+
+    if (!users) {
+        return res.status(400).json({ message: 'Список пользователей пуст'});
+    }
+
+    return res.status(200).json(users);
+
 })
 
 module.exports = {
@@ -236,5 +264,6 @@ module.exports = {
     getAllFriends,
     getSentFriendRequests,
     getReceivedFriendRequests,
-    getProfileDetails
+    getProfileDetails,
+    getRandomUsers
 };
