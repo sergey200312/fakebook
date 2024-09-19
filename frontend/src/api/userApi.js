@@ -52,4 +52,10 @@ export const fetchReceivedRequest = async () => {
     const response = await axiosInstance.get('/friends/request/received');
 
     return response.data;
+};
+
+export const fetchRandomUsers = async () => {
+    const response = await axiosInstance.get('/get-random-users');
+
+    return response.data;
 }

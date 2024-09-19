@@ -8,6 +8,7 @@ import FriendsPage from './pages/FriendsPage.jsx';
 import SentFriendsRequestPage from './pages/SentFriendsRequestPage.jsx';
 import ProfilePage from './pages/ProfilePage.jsx';
 import ReceivedRequestPage from './pages/ReceivedRequestPage.jsx';
+import UsersPage from './pages/UsersPage.jsx';
 
 function App() {
 
@@ -22,6 +23,7 @@ function App() {
           <Route path="/sent-requests" element={<SentFriendsRequestPage />} />
           <Route path="/received-requests" element={<ReceivedRequestPage />} />
           <Route path='/profile/:id' element={<ProfilePage />} />
+          <Route path="/users" element={<UsersPage />} />
         </Route>
       </Routes>
     </Router>
