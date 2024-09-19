@@ -7,6 +7,7 @@ import PrivateRoute from './components/PrivateRoute.jsx';
 import FriendsPage from './pages/FriendsPage.jsx';
 import SentFriendsRequestPage from './pages/SentFriendsRequestPage.jsx';
 import ProfilePage from './pages/ProfilePage.jsx';
+import ReceivedRequestPage from './pages/ReceivedRequestPage.jsx';
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
         <Route element={<PrivateRoute />}>
           <Route path="/friends" element={<FriendsPage />} />
           <Route path="/sent-requests" element={<SentFriendsRequestPage />} />
+          <Route path="/received-requests" element={<ReceivedRequestPage />} />
           <Route path='/profile/:id' element={<ProfilePage />} />
         </Route>
       </Routes>

@@ -24,6 +24,7 @@ export default function FriendRequestButton({ userId, sentRequestStatus, friendS
         onSuccess: (data) => {
             setIsFriend(false);
             console.log('Пользователь удален из друзей', data);
+            queryClient.invalidateQueries(['friends']);
         },
         onError: (error) => {
             console.log('Ошибка при удалении из друзей', error);
@@ -36,6 +37,7 @@ export default function FriendRequestButton({ userId, sentRequestStatus, friendS
             setReceivedRequest(false);
             setRequestSent(false);
             console.log('Пользователь добавлен в друзья', data);
+            queryClient.invalidateQueries(['received']);
         },
         onError: (error) => {
             console.log('Ошибка при добавлении в друзья', error)
