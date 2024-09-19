@@ -228,6 +228,7 @@ const removeFriend = asyncHandler(async (req, res, next) => {
 });
 
 const getRandomUsers = asyncHandler(async (req, res, next) => {
+    const count = parseInt(req.query.count) || 10;
     const currentUser = await User.findById(req.user.id).exec();
     const total = [
         ...currentUser.friends,
@@ -243,7 +244,7 @@ const getRandomUsers = asyncHandler(async (req, res, next) => {
             }
         },
         {
-            $sample: { size: 10  }
+            $sample: { size: count  }
         }
     ]);
 
