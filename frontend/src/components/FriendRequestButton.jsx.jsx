@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { useMutation, useQueryClient } from 'react-query';
+import { useMutation } from 'react-query';
 import { useParams } from 'react-router-dom';
 import { acceptFriendRequest, cancelFriendRequest, removeFriends, sendFriendRequest } from '../api/userApi';
 
-export default function ProfileActions({ sentRequestStatus, friendStatus, receivedStatus }) {
-    const { id } = useParams();
+export default function FriendRequestButton({ userId, sentRequestStatus, friendStatus, receivedStatus }) {
     const [requestSent, setRequestSent] = useState(sentRequestStatus);
     const [isFriend, setIsFriend] = useState(friendStatus);
     const [receivedRequest, setReceivedRequest] = useState(receivedStatus);
@@ -12,14 +11,15 @@ export default function ProfileActions({ sentRequestStatus, friendStatus, receiv
     console.log(requestSent);
     console.log(friendStatus);
     console.log(receivedRequest);
+    console.log(userId)
 
     useEffect(() => {
         setRequestSent(sentRequestStatus);
         setIsFriend(friendStatus);
         setReceivedRequest(receivedStatus);
-    }, [sentRequestStatus, friendStatus, receivedStatus]);
+    }, [sentRequestStatus, friendStatus, receivedStatus, userId]);
 
-    const removeFriendMutation = useMutation(() => removeFriends(id), {
+    const removeFriendMutation = useMutation(() => removeFriends(userId), {
         onSuccess: (data) => {
             setIsFriend(false);
             console.log('Пользователь удален из друзей', data);
@@ -29,7 +29,7 @@ export default function ProfileActions({ sentRequestStatus, friendStatus, receiv
         }
     });
 
-    const acceptRequestMutation = useMutation(() => acceptFriendRequest(id), {
+    const acceptRequestMutation = useMutation(() => acceptFriendRequest(userId), {
         onSuccess: (data) => {
             setIsFriend(true);
             setReceivedRequest(false);
@@ -41,7 +41,7 @@ export default function ProfileActions({ sentRequestStatus, friendStatus, receiv
         }
     });
 
-    const sendRequestMutation = useMutation(() => sendFriendRequest(id), {
+    const sendRequestMutation = useMutation(() => sendFriendRequest(userId), {
         onSuccess: (data) => {
             setRequestSent(true);
             console.log('Запрос отправлен:', data)
@@ -52,7 +52,7 @@ export default function ProfileActions({ sentRequestStatus, friendStatus, receiv
         }
     });
 
-    const cancelRequestMutation = useMutation(() => cancelFriendRequest(id), {
+    const cancelRequestMutation = useMutation(() => cancelFriendRequest(userId), {
         onSuccess: (data) => {
             setRequestSent(false);
             console.log('Запрос отменен')
@@ -80,15 +80,24 @@ export default function ProfileActions({ sentRequestStatus, friendStatus, receiv
         console.log('click')
 
     }
+
+    const getButtonLabel = () => {
+        if (friendStatus) {
+            return 'Удалить из друзей'
+        } if (receivedRequest) {
+            return 'Принять запрос'
+        } if (requestSent) {
+            return 'Отменить запрос'
+        }
+
+        return 'Отправить запрос'
+    }
     return (
         <>
             <button
                 type='button'
                 onClick={handleSubmit}
-                className='p-1 bg-lime-500 rounded-lg text-white hover:bg-lime-800'>
-                {isFriend ?  'Удалить из друзей' : receivedRequest ?
-                    'Принять запрос' : requestSent ?
-                        'Отменить запрос' : 'Отправить запрос'}</button>
+                className='p-1 bg-lime-500 rounded-lg text-white hover:bg-lime-800'>{getButtonLabel()}</button>
         </>
     )
 }

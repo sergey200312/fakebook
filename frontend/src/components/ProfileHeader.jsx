@@ -3,7 +3,7 @@ import { useQuery } from 'react-query';
 import { fetchProfileDetails } from '../api/userApi';
 import { useParams } from 'react-router-dom';
 import { formattedDate } from '../utils/DateFormatter';
-import ProfileActions from './ProfileActions';
+import FriendRequestButton from './FriendRequestButton.jsx';
 
 export default function ProfileHeader() {
 
@@ -35,10 +35,11 @@ export default function ProfileHeader() {
                 </div>
             </div>
             <div>
-                <ProfileActions
+                <FriendRequestButton
                     sentRequestStatus={data?.sentRequestStatus}
                     friendStatus={data?.friendStatus}
-                    receivedStatus={data?.receivedStatus} />
+                    receivedStatus={data?.receivedStatus}
+                    userId={data?.user?._id} />
             </div>
         </div>
     )
