@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import { useMutation } from 'react-query';
-import { useParams } from 'react-router-dom';
+import { useMutation, useQueryClient } from 'react-query';
 import { acceptFriendRequest, cancelFriendRequest, removeFriends, sendFriendRequest } from '../api/userApi';
 
 export default function FriendRequestButton({ userId, sentRequestStatus, friendStatus, receivedStatus }) {
     const [requestSent, setRequestSent] = useState(sentRequestStatus);
     const [isFriend, setIsFriend] = useState(friendStatus);
     const [receivedRequest, setReceivedRequest] = useState(receivedStatus);
+
+    const queryClient = useQueryClient();
 
     console.log(requestSent);
     console.log(friendStatus);
@@ -57,6 +58,7 @@ export default function FriendRequestButton({ userId, sentRequestStatus, friendS
             setRequestSent(false);
             console.log('Запрос отменен')
             console.log(requestSent)
+            queryClient.invalidateQueries(['sent']);
         },
         onError: (error) => {
             console.log('Ошибка при отмене запроса')

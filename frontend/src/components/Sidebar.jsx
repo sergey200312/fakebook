@@ -12,13 +12,7 @@ export default function Sidebar() {
                     <Link to='/profile'>Профиль</Link>
                 </li>
                 <li className='mb-4'>
-                    <Link to='/followers'>Подписчики</Link>
-                </li>
-                <li className='mb-4'>
-                    <Link to='/following'>Подписки</Link>
-                </li>
-                <li className='mb-4'>
-                    <Link to='/friends'>Друзья</Link>
+                    <Link to='/friends'>Пользователи</Link>
                 </li>
             </ul>
         </nav>

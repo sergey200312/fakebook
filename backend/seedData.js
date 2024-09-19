@@ -10,22 +10,23 @@ mongoose.connect(process.env.MONGODB_URL, {
 
 function createRandomUser() {
   return {
-    firstName: faker.person.firstName(),
-    lastName: faker.person.lastName(),
-    email: faker.internet.email(),
-    password: faker.internet.password(),
-    avatar: faker.image.avatar(),
+    firstName: 'test2',
+    lastName: 'test2',
+    email: 'test2@mail.ru',
+    password: 'testtest',
+    avatar: 'https://res.cloudinary.com/dmpka1qpz/image/upload/v1726754728/b75b29441bbd967deda4365441497221_ks3qer.jpg',
     isVerified: true
   };
 }
 
- const users = faker.helpers.multiple(createRandomUser, {
-  count: 10,
-});
+//  const users = faker.helpers.multiple(createRandomUser, {
+//   count: 10,
+// });
 
 async function seedDatabase() {
     try {
-      await User.insertMany(users);
+      const user = new User(createRandomUser())
+      await user.save
       console.log('Моковые данные успешно добавлены');
     } catch (err) {
       console.error('Ошибка при добавлении данных:', err);

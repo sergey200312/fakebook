@@ -8,6 +8,7 @@ export default function Navbar() {
                 <li><Link to='/friends'>Друзья</Link></li>
                 <li><Link to='/sent-requests'>Отправленные запросы</Link></li>
                 <li><Link to='/received-requests'>Полученные запросы</Link></li>
+                <li><Link to='/test'>Найти друзей</Link></li>
             </ul>
         </nav>
     );

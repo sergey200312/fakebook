@@ -18,6 +18,7 @@ exports.register = asyncHandler(async (req, res, next) => {
         lastName,
         email,
         password: hashedPassword,
+        isVerified: true
     });
 
     await user.save();
