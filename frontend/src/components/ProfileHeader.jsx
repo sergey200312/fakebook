@@ -11,6 +11,8 @@ export default function ProfileHeader() {
     const { data, isLoading } = useQuery(['profile', id], () => fetchProfileDetails(id));
     console.log(data);
 
+    const isCurrentUser = id !== data?.currentUser._id;
+
     return (
         <div className='ml-8 p-10 rounded-xl bg-gray-800'>
             <div className='flex justify-between'>
@@ -34,13 +36,13 @@ export default function ProfileHeader() {
                     />
                 </div>
             </div>
-            <div>
+             { isCurrentUser && (<div>
                 <FriendRequestButton
                     sentRequestStatus={data?.sentRequestStatus}
                     friendStatus={data?.friendStatus}
                     receivedStatus={data?.receivedStatus}
                     userId={data?.user?._id} />
-            </div>
+            </div>)}
         </div>
     )
 }

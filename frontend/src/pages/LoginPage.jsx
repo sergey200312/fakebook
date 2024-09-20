@@ -30,7 +30,10 @@ export default function LoginPage() {
             const response = await axios.post(`${import.meta.env.VITE_API_URL}/login`, formData);
             console.log('debbug')
             dispatch(login(response.data.token));
-            notify()
+            notify();
+            setTimeout(() => {
+                navigate('/friends');
+            }, 500)
             // navigate('/friends');
 
         } catch (err) {
@@ -75,7 +78,7 @@ export default function LoginPage() {
             </div>
             <ToastContainer
                 position="top-right"
-                autoClose={5000}
+                autoClose={500}
                 hideProgressBar={false}
                 newestOnTop={false}
                 closeOnClick
