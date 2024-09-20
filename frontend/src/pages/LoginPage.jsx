@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { login } from '../features/authSlice'
 import { useDispatch } from 'react-redux';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 export default function LoginPage() {
@@ -11,8 +13,8 @@ export default function LoginPage() {
     const [formData, setFormData] = useState({
         email: '',
         password: ''
-    })
-
+    });
+    const notify = () => toast.success("Вы успешно вошли в систему");
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setFormData({
@@ -28,13 +30,14 @@ export default function LoginPage() {
             const response = await axios.post(`${import.meta.env.VITE_API_URL}/login`, formData);
             console.log('debbug')
             dispatch(login(response.data.token));
-            navigate('/')
+            notify()
+            // navigate('/friends');
 
         } catch (err) {
             console.error(err.response.data.message);
         }
     }
-    
+
 
     return (
         <div className='flex justify-center items-center min-h-screen'>
@@ -70,7 +73,20 @@ export default function LoginPage() {
                     </div>
                 </form>
             </div>
-
-        </div>
+            <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+                transition:Bounce
+            />
+        </div >
+        
     )
 }
