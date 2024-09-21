@@ -11,10 +11,12 @@ export default function ProfileHeader() {
     const { id } = useParams();
     const { data, isLoading } = useQuery(['profile', id], () => fetchProfileDetails(id));
     const currentUser = useSelector((state) => state.auth.currentUser);
-    console.log(currentUser)
+    console.log(currentUser);
+    console.log(id)
     console.log(data);
 
     const isCurrentUser = id === currentUser;
+    console.log(isCurrentUser)
 
     return (
         <div className='ml-8 p-10 rounded-xl bg-gray-800'>
