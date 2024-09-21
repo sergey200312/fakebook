@@ -28,3 +28,14 @@ exports.create_post = [
 
     })
 ];
+
+exports.get_posts = asyncHandler(async (req, res, next) => {
+    const { id } = req.user;
+    const posts = await Post.find({user: id}).sort({ content: 1 }).exec();
+
+    if (!posts) { 
+        return res.status(400).json({ message: 'Посты не найдены' });
+    }
+
+    return res.status(200).json({ message: 'Посты найдены', posts});
+})

@@ -34,5 +34,7 @@ router.get('/get-random-users', passport.authenticate('jwt', {session: false }),
 
 router.post('/post/create', passport.authenticate('jwt', {session: false }), PostController.create_post);
 
+router.get('/post/get', passport.authenticate('jwt', {session: false }), PostController.get_posts);
+
 
 module.exports = router;
