@@ -3,15 +3,18 @@ import { useQuery } from 'react-query';
 import { fetchProfileDetails } from '../api/userApi';
 import { useParams } from 'react-router-dom';
 import { formattedDate } from '../utils/DateFormatter';
+import { useSelector } from 'react-redux';
 import FriendRequestButton from './FriendRequestButton.jsx';
 
 export default function ProfileHeader() {
 
     const { id } = useParams();
     const { data, isLoading } = useQuery(['profile', id], () => fetchProfileDetails(id));
+    const currentUser = useSelector((state) => state.auth.currentUser);
+    console.log(currentUser)
     console.log(data);
 
-    const isCurrentUser = id !== data?.currentUser._id;
+    const isCurrentUser = id === currentUser;
 
     return (
         <div className='ml-8 p-10 rounded-xl bg-gray-800'>
@@ -36,7 +39,7 @@ export default function ProfileHeader() {
                     />
                 </div>
             </div>
-             { isCurrentUser && (<div>
+             { !isCurrentUser && (<div>
                 <FriendRequestButton
                     sentRequestStatus={data?.sentRequestStatus}
                     friendStatus={data?.friendStatus}

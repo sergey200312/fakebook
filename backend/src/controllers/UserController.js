@@ -20,7 +20,7 @@ const getProfileDetails = asyncHandler(async (req, res, next) => {
     const friendsCount = user.friends.length;
     const subscriptionsCount = user.subscribers.length;
 
-    return res.status(200).json({ message: 'Профиль успешно найден', currentUser, user, friendsCount, subscriptionsCount, sentRequestStatus, friendStatus, receivedStatus })
+    return res.status(200).json({ message: 'Профиль успешно найден', user, friendsCount, subscriptionsCount, sentRequestStatus, friendStatus, receivedStatus })
     
 })
 // Получение списка друзей
