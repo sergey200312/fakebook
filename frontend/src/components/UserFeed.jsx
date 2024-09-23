@@ -1,6 +1,7 @@
 import React from 'react';
 import { useQuery } from 'react-query';
 import { getPosts } from '../api/postApi';
+import CommentList from './CommentList';
 
 export default function PostsList() {
     const { data, isLoading } = useQuery(['posts'], getPosts);
@@ -15,6 +16,9 @@ export default function PostsList() {
                     <div className='w-full border-2 border-gray-900 mb-5'>
                         <div key={post._id} className='mb-5 p-2 text-white '>
                             <p>{post.content}</p>
+                            <div>
+                                <CommentList postId = {post._id} />
+                            </div>
                         </div>
                     </div>
                 ))}
