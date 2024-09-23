@@ -13,6 +13,11 @@ const CommentSchema = new Schema({
         ref: "Post",
         required: true
     },
+    parentComment: {
+        type: Schema.Types.ObjectId,
+        ref: "Comment",
+        default: null
+    },
     text: {
         type: String,
         required: true
