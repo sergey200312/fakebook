@@ -5,6 +5,7 @@ const { registerValidator, loginValidator, validateResult } = require('../middle
 const UserController = require('../controllers/UserController');
 const passport = require('passport');
 const PostController = require('../controllers/PostController');
+const CommentController = require('../controllers/CommentController')
 
 router.post('/register', registerValidator, validateResult, AuthController.register);
 
@@ -35,6 +36,8 @@ router.get('/get-random-users', passport.authenticate('jwt', {session: false }),
 router.post('/post/create', passport.authenticate('jwt', {session: false }), PostController.create_post);
 
 router.get('/post/get', passport.authenticate('jwt', {session: false }), PostController.get_posts);
+
+router.post('/comment/create', passport.authenticate('jwt', {session: false }), CommentController.create_comment);
 
 
 module.exports = router;
