@@ -1,6 +1,7 @@
 const asyncHandler = require('express-async-handler');
 const Post = require('../models/Post');
-const { validationResult, body } = require('express-validator')
+const { validationResult, body } = require('express-validator');
+const User = require('../models/User');
 
 
 exports.create_post = [
@@ -38,4 +39,23 @@ exports.get_posts = asyncHandler(async (req, res, next) => {
     }
 
     return res.status(200).json({ message: 'Посты найдены', posts});
-})
+});
+
+exports.getFeed = asyncHandler(async (req, res, next) => {
+    const { id } = req.user;
+
+    const user = await User.findById(id).populate('subscriptions friends');
+
+    const subscriptions = user.subscriptions.map(sub => sub._id);
+    const friends = user.friends.map(friend => friend._id);
+
+    const posts = await Post.find({
+        user: { $in : [...subscriptions, ...friends] }
+    }).populate('user', 'firstName lastName');
+
+    if (!posts) {
+        return res.status(400).json({ message: 'Список постов пуст'})
+    }
+
+    return res.status(200).json({ posts });
+});

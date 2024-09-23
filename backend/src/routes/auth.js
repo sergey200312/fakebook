@@ -41,5 +41,7 @@ router.post('/comment/create', passport.authenticate('jwt', {session: false }), 
 
 router.get('/comments/get', passport.authenticate('jwt', {session: false }), CommentController.get_comment);
 
+router.get('/feed',  passport.authenticate('jwt', {session: false }), PostController.getFeed);
+
 
 module.exports = router;
