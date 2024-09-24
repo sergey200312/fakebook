@@ -7,10 +7,10 @@ import { useMutation } from "react-query";
 
 export default function PostItem({ post }) {
   const [likesCount, setLikesCount] = useState(post.likes.length);
-
   const mutation = useMutation(() => toggleLike(post._id), {
     onSuccess: (data) => {
-      setLikesCount(data.count); 
+      setLikesCount(data.count);
+      console.log(data) 
     },
     onError: (error) => {
       console.error('Ошибка при изменении лайка:', error);
@@ -33,7 +33,7 @@ export default function PostItem({ post }) {
         </div>
         <p>{post.content}</p>
         <div>
-            <button type='submit' onClick={handleLikeStatus}>{post.likes.isLikes} {likesCount}</button>
+            <button type='submit' onClick={handleLikeStatus}> {post.message} {likesCount}</button>
         </div>
         <div>
           <CommentList postId={post._id} />

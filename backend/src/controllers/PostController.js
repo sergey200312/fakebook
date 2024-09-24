@@ -83,3 +83,26 @@ exports.toggleLike = asyncHandler(async (req, res, next) => {
     return res.status(200).json({ message: isLikes? 'Лайк убран' : 'Лайк поставлен', likes: post.likes, count: post.likes.length})
 
 });
+
+exports.toggleDislike = asyncHandler(async (req, res, next) => {
+    const userId = req.user.id;
+    const { postId } = req.params;
+
+    const post = await Post.findById(postId).exec();
+
+    if (!post) {
+        return res.status(404).json({ message: 'Пост не найден'})
+    };
+
+    const isDislikes = post.dislikes.includes(userId);
+
+    if (isDislikes) {
+        post.dislikes.pull(userId);
+    } else {
+        post.dislikes.push(userId);
+    }
+
+    await post.save();
+
+    return res.status(200).json({ message: isDislikes? 'Лайк убран' : 'Лайк поставлен', dislikes: post.dislikes, count: post.dislikes.length})
+})
