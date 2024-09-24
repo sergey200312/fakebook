@@ -33,7 +33,7 @@ export default function PostItem({ post }) {
         </div>
         <p>{post.content}</p>
         <div>
-            <button type='submit' onClick={handleLikeStatus}>{likesCount}</button>
+            <button type='submit' onClick={handleLikeStatus}>{post.likes.isLikes} {likesCount}</button>
         </div>
         <div>
           <CommentList postId={post._id} />
