@@ -35,7 +35,7 @@ router.get('/get-random-users', passport.authenticate('jwt', {session: false }),
 
 router.post('/post/create', passport.authenticate('jwt', {session: false }), PostController.create_post);
 
-router.get('/post/get', passport.authenticate('jwt', {session: false }), PostController.get_posts);
+router.get('/post/get/:id', passport.authenticate('jwt', {session: false }), PostController.get_posts);
 
 router.post('/comment/create', passport.authenticate('jwt', {session: false }), CommentController.create_comment);
 

@@ -31,8 +31,8 @@ exports.create_post = [
 ];
 
 exports.get_posts = asyncHandler(async (req, res, next) => {
-    const { id } = req.user;
-    const posts = await Post.find({user: id}).sort({ content: 1 }).exec();
+    const { id } = req.params;
+    const posts = await Post.find({user: id}).sort({ createdAt: -1 }).populate('user').exec();
 
     if (!posts) { 
         return res.status(400).json({ message: 'Посты не найдены' });
@@ -51,7 +51,7 @@ exports.getFeed = asyncHandler(async (req, res, next) => {
 
     const posts = await Post.find({
         user: { $in : [...subscriptions, ...friends] }
-    }).populate('user', 'firstName lastName');
+    }).sort({ createdAt: -1}).populate('user', 'firstName lastName');
 
     if (!posts) {
         return res.status(400).json({ message: 'Список постов пуст'})

@@ -6,7 +6,7 @@ export default function Sidebar() {
         <nav className='flex flex-col text-2xl w-64 text-white bg-gray-800 rounded-xl p-4'>
             <ul>
                 <li className='mb-4'>
-                    <Link to='/'>Главная</Link>
+                    <Link to='/feed'>Главная</Link>
                 </li>
                 <li className='mb-4'>
                     <Link to='/profile'>Профиль</Link>

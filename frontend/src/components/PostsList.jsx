@@ -1,10 +1,14 @@
 import React from 'react';
 import { useQuery } from 'react-query';
-import { getPosts } from '../api/postApi';
+import { getFeed, getPosts } from '../api/postApi';
 import CommentList from './CommentList';
+import { useParams } from 'react-router-dom';
+import { formattedDatePost } from '../utils/DateFormatter';
 
-export default function PostsList() {
-    const { data, isLoading } = useQuery(['posts'], getPosts);
+export default function PostsList({ feedType }) {
+    const { id } = useParams();
+    const fetchFunction = feedType === 'feed' ? getFeed : getPosts;
+    const { data, isLoading } = useQuery(['posts', feedType, id], () => fetchFunction(feedType === 'feed' ? '' : id));
     console.log(data);
 
     if (isLoading) return <div>Загрузка..</div>
@@ -15,6 +19,10 @@ export default function PostsList() {
                 {data?.posts.map(post => (
                     <div className='w-full border-2 border-gray-900 mb-5'>
                         <div key={post._id} className='mb-5 p-2 text-white '>
+                            <div className='flex justify-between mb-2'>
+                                <p>{post.user.firstName} {post.user.lastName}</p>
+                                <p>{formattedDatePost(post.createdAt)}</p>
+                            </div>
                             <p>{post.content}</p>
                             <div>
                                 <CommentList postId = {post._id} />
