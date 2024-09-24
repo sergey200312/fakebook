@@ -19,28 +19,6 @@ exports.get_comment = asyncHandler(async (req, res, next) => {
     const response = { message: 'Комментарии успешно найдены', comments };
 
     return res.status(200).json({ response });
-    // const { postId  = req.query;
-    //     const [comments, parentComments] = await Promise.all([
-    //         Comment.find({ post: postId }),
-    //         Comment.find({ parentComment: parentCommentId })
-    //     ]);
-    
-    //     if (!postId) {
-    //         return res.status(400).json({ message: 'postId обязателен'})
-    //     }
-    
-    //     if (!comments || comments.length === 0) {
-    
-    //         return res.status(400).json({ message: 'Список комментариев пуст'});
-    //     }
-    
-    //     const response = { message: 'Комментарии успешно найдены', comments };
-    
-    //     if (parentComments && parentComments.length > 0) {
-    //         response.parentComments = parentComments;
-    //     }
-    
-    //     return res.status(200).json({ response });
     
 });
 

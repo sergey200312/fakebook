@@ -21,14 +21,14 @@ const PostSchema = new Schema({
         type: Date,
         default: Date.now
     },
-    likesCount: {
-        type: Number,
-        default: 0
-    },
-    dislikesCount: {
-        type: Number,
-        default: 0
-    }
+    likes: [{
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    }],
+    dislikes: [{
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    }]
 })
 
 PostSchema.index({ user: 1 });

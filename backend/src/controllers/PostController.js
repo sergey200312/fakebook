@@ -59,3 +59,17 @@ exports.getFeed = asyncHandler(async (req, res, next) => {
 
     return res.status(200).json({ posts });
 });
+
+exports.toggleLike = asyncHandler(async (req, res, next) => {
+    const userId = req.user.id;
+    const { postId } = req.query;
+
+    const post = await Post.findById(postId).exec();
+
+    if (!post) {
+        return res.status(404).json({ message: 'Пост не найден'})
+    };
+
+    if (post.)
+
+});
