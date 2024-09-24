@@ -62,7 +62,7 @@ exports.getFeed = asyncHandler(async (req, res, next) => {
 
 exports.toggleLike = asyncHandler(async (req, res, next) => {
     const userId = req.user.id;
-    const { postId } = req.query;
+    const { postId } = req.params;
 
     const post = await Post.findById(postId).exec();
 
@@ -70,6 +70,16 @@ exports.toggleLike = asyncHandler(async (req, res, next) => {
         return res.status(404).json({ message: 'Пост не найден'})
     };
 
-    if (post.)
+    const isLikes = post.likes.includes(userId);
+
+    if (isLikes) {
+        post.likes.pull(userId);
+    } else {
+        post.likes.push(userId);
+    }
+
+    await post.save();
+
+    return res.status(200).json({ message: isLikes? 'Лайк убран' : 'Лайк поставлен', likes: post.likes})
 
 });

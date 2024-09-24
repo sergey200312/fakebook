@@ -43,5 +43,7 @@ router.get('/comments/get', passport.authenticate('jwt', {session: false }), Com
 
 router.get('/feed',  passport.authenticate('jwt', {session: false }), PostController.getFeed);
 
+router.post('/post/:postId/toggleLike', passport.authenticate('jwt', {session: false }), PostController.toggleLike);
+
 
 module.exports = router;
