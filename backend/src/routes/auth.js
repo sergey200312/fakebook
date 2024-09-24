@@ -45,5 +45,7 @@ router.get('/feed',  passport.authenticate('jwt', {session: false }), PostContro
 
 router.post('/post/:postId/toggleLike', passport.authenticate('jwt', {session: false }), PostController.toggleLike);
 
+router.post('/post/:postId/toggleDislike', passport.authenticate('jwt', {session: false }), PostController.toggleDislike);
+
 
 module.exports = router;

@@ -6,7 +6,6 @@ import PostItem from "./PostItem";
 
 export default function PostsList({ feedType }) {
   const { id } = useParams();
-  const [likesCount, setLikesCount] = useState();
   const fetchFunction = feedType === "feed" ? getFeed : getPosts;
   const { data, isLoading } = useQuery(["posts", feedType, id], () =>
     fetchFunction(feedType === "feed" ? "" : id)

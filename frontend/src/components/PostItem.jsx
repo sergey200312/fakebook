@@ -1,13 +1,24 @@
 import React, { useState } from "react";
 import CommentList from "./CommentList";
 import { formattedDatePost } from "../utils/DateFormatter";
-import { toggleLike } from "../api/postApi";
-import { useQueryClient } from "react-query";
+import { toggleLike, toggleDislike } from "../api/postApi";
 import { useMutation } from "react-query";
 
 export default function PostItem({ post }) {
   const [likesCount, setLikesCount] = useState(post.likes.length);
-  const mutation = useMutation(() => toggleLike(post._id), {
+  const [dislikesCount, setDislikesCount] = useState(post.dislikes.length);
+
+  const setDislikeMutation = useMutation(() => toggleDislike(post._id), {
+    onSuccess: (data) => {
+      setDislikesCount(data.count);
+      console.log(data) 
+    },
+    onError: (error) => {
+      console.error('Ошибка при изменении лайка:', error);
+    }
+  });
+
+  const setLikeMutation = useMutation(() => toggleLike(post._id), {
     onSuccess: (data) => {
       setLikesCount(data.count);
       console.log(data) 
@@ -19,7 +30,12 @@ export default function PostItem({ post }) {
 
   const handleLikeStatus = (e) => {
     e.preventDefault();
-    mutation.mutate();
+    setLikeMutation.mutate();
+  };
+
+  const handleDislikeStatus = (e) => {
+    e.preventDefault();
+    setDislikeMutation.mutate();
   };
 
   return (
@@ -32,8 +48,9 @@ export default function PostItem({ post }) {
           <p>{formattedDatePost(post.createdAt)}</p>
         </div>
         <p>{post.content}</p>
-        <div>
-            <button type='submit' onClick={handleLikeStatus}> {post.message} {likesCount}</button>
+        <div className='flex gap-6'>
+            <button type='submit' onClick={handleLikeStatus}>{likesCount}</button>
+            <button type='submit' onClick={handleDislikeStatus}>{dislikesCount}</button>
         </div>
         <div>
           <CommentList postId={post._id} />

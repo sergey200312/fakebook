@@ -16,4 +16,10 @@ export const toggleLike = async (postId) => {
     const response = await axiosInstance.post(`/post/${postId}/toggleLike`);
 
     return response.data;
+};
+
+export const toggleDislike = async (postId) => {
+    const response = await axiosInstance.post(`/post/${postId}/toggleDislike`);
+
+    return response.data;
 }
