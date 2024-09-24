@@ -10,4 +10,10 @@ export const getFeed = async () => {
     const response = await axiosInstance.get('/feed');
 
     return response.data;
+};
+
+export const toggleLike = async (postId) => {
+    const response = await axiosInstance.post(`/post/${postId}/toggleLike`);
+
+    return response.data;
 }

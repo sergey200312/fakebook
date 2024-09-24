@@ -80,6 +80,6 @@ exports.toggleLike = asyncHandler(async (req, res, next) => {
 
     await post.save();
 
-    return res.status(200).json({ message: isLikes? 'Лайк убран' : 'Лайк поставлен', likes: post.likes})
+    return res.status(200).json({ message: isLikes? 'Лайк убран' : 'Лайк поставлен', likes: post.likes, count: post.likes.length})
 
 });
