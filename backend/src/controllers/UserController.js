@@ -46,6 +46,18 @@ const getAllFriends = asyncHandler(async (req, res, next) => {
     return res.status(200).json({ user })
 });
 
+const getCurrentUserProfile = asyncHandler(async (req, res, next) => {
+    const userId = req.user.id;
+
+    const currentUser = await User.findById(userId).exec();
+
+    if (!currentUser) {
+        return res.status(400).json({ message: 'Пользователь не найден'})
+    };
+
+    res.status(200).json({ currentUser });
+});
+
 // Получение списка отправленных заявок в друзья
 const getSentFriendRequests = asyncHandler(async (req, res, next) => {
     const userId = req.user.id;
@@ -255,7 +267,7 @@ const getRandomUsers = asyncHandler(async (req, res, next) => {
     return res.status(200).json(users);
 });
 
-exports.upload = async(req, res) => {
+const upload = async(req, res) => {
     try {
         if (req.file) {
             res.status(201).json({
@@ -281,5 +293,7 @@ module.exports = {
     getSentFriendRequests,
     getReceivedFriendRequests,
     getProfileDetails,
-    getRandomUsers
+    getRandomUsers,
+    getCurrentUserProfile,
+    upload
 };

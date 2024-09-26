@@ -58,4 +58,10 @@ export const fetchRandomUsers = async () => {
     const response = await axiosInstance.get('/get-random-users');
 
     return response.data;
+};
+
+export const fetchMe = async () => {
+    const response = await axiosInstance.get('/user/me');
+
+    return response.data;
 }

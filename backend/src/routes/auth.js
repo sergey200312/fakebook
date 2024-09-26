@@ -5,7 +5,8 @@ const { registerValidator, loginValidator, validateResult } = require('../middle
 const UserController = require('../controllers/UserController');
 const passport = require('passport');
 const PostController = require('../controllers/PostController');
-const CommentController = require('../controllers/CommentController')
+const CommentController = require('../controllers/CommentController');
+const upload = require('../config/multer');
 
 router.post('/register', registerValidator, validateResult, AuthController.register);
 
@@ -48,6 +49,8 @@ router.post('/post/:postId/toggleLike', passport.authenticate('jwt', {session: f
 router.post('/post/:postId/toggleDislike', passport.authenticate('jwt', {session: false }), PostController.toggleDislike);
 
 router.post('/upload', passport.authenticate('jwt', {session: false }), upload.single("image"), UserController.upload);
+
+router.get('/user/me', passport.authenticate('jwt', {session: false }), UserController.getCurrentUserProfile)
 
 
 module.exports = router;

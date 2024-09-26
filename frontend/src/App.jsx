@@ -10,6 +10,9 @@ import ProfilePage from './pages/ProfilePage.jsx';
 import ReceivedRequestPage from './pages/ReceivedRequestPage.jsx';
 import UsersPage from './pages/UsersPage.jsx';
 import UserFeed from './pages/UserFeed.jsx';
+import Modal from 'react-modal';
+
+Modal.setAppElement('#root')
 
 function App() {
 
