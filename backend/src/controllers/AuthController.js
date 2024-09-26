@@ -17,6 +17,7 @@ exports.register = asyncHandler(async (req, res, next) => {
         firstName,
         lastName,
         email,
+        avatar: process.env.DEFAULT_AVATAR,
         password: hashedPassword,
         isVerified: true
     });
