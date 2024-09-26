@@ -253,8 +253,23 @@ const getRandomUsers = asyncHandler(async (req, res, next) => {
     }
 
     return res.status(200).json(users);
+});
 
-})
+exports.upload = async(req, res) => {
+    try {
+        if (req.file) {
+            res.status(201).json({
+                message: 'Изображение загружено успешно',
+                imageUrl: req.file.path, // URL загруженного изображения в Cloudinary
+            });
+        } else {
+            res.status(400).json({ message: 'Ошибка при загрузке изображения' });
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Произошла ошибка при загрузке изображения' });
+    }
+};
 
 module.exports = {
     createFriendRequest,
