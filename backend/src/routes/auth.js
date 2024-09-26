@@ -47,5 +47,7 @@ router.post('/post/:postId/toggleLike', passport.authenticate('jwt', {session: f
 
 router.post('/post/:postId/toggleDislike', passport.authenticate('jwt', {session: false }), PostController.toggleDislike);
 
+router.post('/upload', passport.authenticate('jwt', {session: false }), upload.single("image"), UserController.upload);
+
 
 module.exports = router;
