@@ -64,4 +64,10 @@ export const fetchMe = async () => {
     const response = await axiosInstance.get('/user/me');
 
     return response.data;
+};
+
+export const editProfile = async (formData) => {
+    const response = await axiosInstance.put('/profile/edit', formData);
+
+    return response.data;
 }

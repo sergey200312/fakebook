@@ -50,7 +50,9 @@ router.post('/post/:postId/toggleDislike', passport.authenticate('jwt', {session
 
 router.post('/upload', passport.authenticate('jwt', {session: false }), upload.single("image"), UserController.upload);
 
-router.get('/user/me', passport.authenticate('jwt', {session: false }), UserController.getCurrentUserProfile)
+router.get('/user/me', passport.authenticate('jwt', {session: false }), UserController.getCurrentUserProfile);
+
+router.put('/profile/edit', passport.authenticate('jwt', {session: false }), UserController.editProfile)
 
 
 module.exports = router;

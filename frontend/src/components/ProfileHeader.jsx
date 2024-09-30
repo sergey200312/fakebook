@@ -39,6 +39,7 @@ export default function ProfileHeader() {
               <p className="text-white mb-2">
                 {data.subscriptionsCount} Подписчики
               </p>
+              <p className='text-white'>О себе: {data.user.bio}</p>
             </div>
           )}
         </div>

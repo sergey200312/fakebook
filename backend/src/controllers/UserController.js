@@ -267,12 +267,23 @@ const getRandomUsers = asyncHandler(async (req, res, next) => {
     return res.status(200).json(users);
 });
 
+const editProfile = asyncHandler(async (req, res, next) => {
+    const userId = req.user.id;
+    const {firstName, lastName, bio, avatar } = req.body;
+    const Avatar= avatar || '';
+
+    const user = await User.findByIdAndUpdate(userId, {firstName, lastName, bio, avatar: Avatar},  { new: true}).exec();
+
+    return res.status(200).json({message: 'Профиль обновлен', user })
+
+})
+
 const upload = async(req, res) => {
     try {
         if (req.file) {
             res.status(201).json({
                 message: 'Изображение загружено успешно',
-                imageUrl: req.file.path, // URL загруженного изображения в Cloudinary
+                imageUrl: req.file.path, 
             });
         } else {
             res.status(400).json({ message: 'Ошибка при загрузке изображения' });
@@ -282,6 +293,8 @@ const upload = async(req, res) => {
         res.status(500).json({ message: 'Произошла ошибка при загрузке изображения' });
     }
 };
+
+
 
 module.exports = {
     createFriendRequest,
@@ -295,5 +308,6 @@ module.exports = {
     getProfileDetails,
     getRandomUsers,
     getCurrentUserProfile,
-    upload
+    upload,
+    editProfile
 };

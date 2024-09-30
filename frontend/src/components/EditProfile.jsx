@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
-import { useQuery } from "react-query";
-import { fetchMe } from "../api/userApi";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { editProfile, fetchMe } from "../api/userApi";
 import { FaCloudDownloadAlt } from "react-icons/fa";
+
 
 export default function EditProfile({ closeModal, modalIsOpen }) {
   const { data, isLoading } = useQuery(["me"], fetchMe);
@@ -13,6 +14,18 @@ export default function EditProfile({ closeModal, modalIsOpen }) {
     bio: "",
     avatar: "",
   });
+
+  const queryClient = useQueryClient();
+
+  const editProfileMutation = useMutation(() => editProfile(formData), {
+    onSuccess:(data) => {
+      console.log('Профиль успешно обновлен');
+      queryClient.invalidateQueries(['profile'])
+    },
+    onError: (error) => {
+      console.log('Ошибка при обновлении профиля')
+    }
+  }) 
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -29,6 +42,12 @@ export default function EditProfile({ closeModal, modalIsOpen }) {
       });
     }
   }, [data]);
+  
+  const handleClick  = (e) => {
+    e.preventDefault();
+    closeModal();
+    editProfileMutation.mutate();
+  }
 
   if (isLoading) return <div>Загрузка..</div>;
 
@@ -80,7 +99,7 @@ export default function EditProfile({ closeModal, modalIsOpen }) {
             />
           </div>
           <div className="flex justify-center">
-            <button onClick={closeModal}>Сохранить</button>
+            <button onClick={handleClick}>Сохранить</button>
           </div>
         </div>
       </Modal>
