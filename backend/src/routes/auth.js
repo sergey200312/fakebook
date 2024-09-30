@@ -52,7 +52,9 @@ router.post('/upload', passport.authenticate('jwt', {session: false }), upload.s
 
 router.get('/user/me', passport.authenticate('jwt', {session: false }), UserController.getCurrentUserProfile);
 
-router.put('/profile/edit', passport.authenticate('jwt', {session: false }), UserController.editProfile)
+router.put('/profile/edit', passport.authenticate('jwt', {session: false }), UserController.editProfile);
+
+router.get('/liked-posts', passport.authenticate('jwt', {session: false }), PostController.getLikedPosts )
 
 
 module.exports = router;

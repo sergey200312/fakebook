@@ -105,4 +105,17 @@ exports.toggleDislike = asyncHandler(async (req, res, next) => {
     await post.save();
 
     return res.status(200).json({ message: isDislikes? 'Лайк убран' : 'Лайк поставлен', dislikes: post.dislikes, count: post.dislikes.length})
+});
+
+exports.getLikedPosts = asyncHandler(async (req, res, next) => {
+    const userId = req.user.id;
+    
+    const posts = await Post.find({ likes: userId}).exec();
+
+    if (!posts) {
+        return res.status(400).json({ message: 'Понравившихся постов не найдено' })
+    };
+
+    res.status(200).json({ message: 'Понравившиеся посты найдены', posts});
+
 })
