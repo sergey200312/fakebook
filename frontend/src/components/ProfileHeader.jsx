@@ -22,38 +22,57 @@ export default function ProfileHeader() {
   const isCurrentUser = id === currentUser;
 
   return (
-    <div className="ml-8 p-10 rounded-xl bg-gray-800">
-      <div className="flex justify-between">
-        <div className="flex-col">
+    <div className=" p-10 rounded-xl flex-grow">
+      <div className='flex flex-col'>
+        <div className="flex mb-20">
+          <div className=''>
+            <img
+              className="h-24 rounded-full"
+              src={data?.user?.avatar}
+              alt={`${data?.user?.firstName} ${data?.user?.lastName}`}
+            />
+
+          </div>
+          <div className='flex flex-col'>
+            <p className="text-white font-bold text-xl ml-6">
+              {data?.user?.firstName} {data?.user?.lastName}
+            </p>
+            {data?.user?.bio && (
+              <p className='text-gray-400 text-lg mb-2 ml-6'>О себе: {data.user.bio}</p>
+            )}
+            <p className="text-gray-400 text-lg font-serif mb-2 ml-6">
+              {formattedDate(data?.user?.createdAt)}
+            </p>
+          </div>
+        </div>
+        <div className="mb-6">
           {isLoading ? (
             <div className="text-white">Загрузка...</div>
           ) : (
-            <div>
-              <p className="text-white mb-2">
-                {data?.user?.firstName} {data?.user?.lastName}
-              </p>
-              <p className="text-white mb-2">
-                {formattedDate(data?.user?.createdAt)}
-              </p>
-              <p className="text-white mb-2">{data.friendsCount} Друзья</p>
-              <p className="text-white mb-2">
-                {data.subscriptionsCount} Подписчики
-              </p>
-              <p className='text-white'>О себе: {data.user.bio}</p>
+            <div className="flex justify-around items-center">
+              <div className='flex flex-col'>
+                <p className="text-white text-center font-bold mb-2">{data.friendsCount}</p>
+                <p className='text-gray-400 font-serif'>Друзья</p>
+              </div>
+              <div>
+                <p className="text-white text-center font-bold mb-2">{data.subscriptionsCount} </p>
+                <p className='text-gray-400 font-serif'>Подписчики</p>
+              </div>
+              <div>
+                <p className="text-white text-center font-bold mb-2">{data.subscribersCount} </p>
+                <p className='text-gray-400 font-serif'>Подписки</p>
+              </div>
+
             </div>
           )}
         </div>
-        <div>
-          <img
-            className="h-48 rounded-full"
-            src={data?.user?.avatar}
-            alt={`${data?.user?.firstName} ${data?.user?.lastName}`}
-          />
+        <div className='border-b border border-gray-700 '>
         </div>
-        <button onClick={openModal}>Открыть модальное окно</button>
-        <EditProfile closeModal={closeModal} modalIsOpen={modalIsOpen} />
+
+        {/* <button onClick={openModal}>Открыть модальное окно</button>
+        <EditProfile closeModal={closeModal} modalIsOpen={modalIsOpen} /> */}
       </div>
-      {!isCurrentUser && (
+      {/* {!isCurrentUser && (
         <div>
           <FriendRequestButton
             sentRequestStatus={data?.sentRequestStatus}
@@ -62,7 +81,7 @@ export default function ProfileHeader() {
             userId={data?.user?._id}
           />
         </div>
-      )}
+      )} */}
     </div>
   );
 }

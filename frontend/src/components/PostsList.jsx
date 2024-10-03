@@ -15,14 +15,15 @@ export default function PostsList({ feedType }) {
   if (isLoading) return <div>Загрузка..</div>;
 
   return (
-    <div className="mt-5 ml-8 p-10 bg-gray-800 rounded-xl">
-      <div className="flex flex-col items-start">
-        {data?.posts.map((post) => (
-          <div className="w-full border-2 border-gray-900 mb-5">
-            <PostItem post={post} />
-          </div>
-        ))}
+      <div className="px-10">
+        <p className='text-white font-bold text-2xl mb-4'>Посты</p>
+        <div className="flex flex-col items-start">
+          {data?.posts.map((post) => (
+            <div className="w-full border-2 border-gray-900 mb-5">
+              <PostItem post={post} />
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
   );
 }
