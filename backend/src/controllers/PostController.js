@@ -70,6 +70,12 @@ exports.toggleLike = asyncHandler(async (req, res, next) => {
         return res.status(404).json({ message: 'Пост не найден'})
     };
 
+    const isDislikes = post.dislikes.includes(userId);
+
+    if(isDislikes) {
+        return res.status(400).json({ message: 'Нельзя поставить лайк, т.к. поставлен дизлайк'})
+    }
+
     const isLikes = post.likes.includes(userId);
 
     if (isLikes) {
@@ -94,6 +100,12 @@ exports.toggleDislike = asyncHandler(async (req, res, next) => {
         return res.status(404).json({ message: 'Пост не найден'})
     };
 
+    const isLikes = post.likes.includes(userId);
+
+    if(isLikes) {
+        return res.status(400).json({ message: 'Нельзя поставить дизлайк, т.к. поставлен лайк'})
+    }
+
     const isDislikes = post.dislikes.includes(userId);
 
     if (isDislikes) {
@@ -113,7 +125,7 @@ exports.getLikedPosts = asyncHandler(async (req, res, next) => {
     const posts = await Post.find({ likes: userId}).exec();
 
     if (!posts) {
-        return res.status(400).json({ message: 'Понравившихся постов не найдено' })
+        return res.status(404).json({ message: 'Понравившихся постов не найдено' })
     };
 
     res.status(200).json({ message: 'Понравившиеся посты найдены', posts});

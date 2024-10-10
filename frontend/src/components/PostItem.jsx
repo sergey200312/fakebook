@@ -53,7 +53,7 @@ export default function PostItem({ post }) {
         <div className='flex gap-6'>
           <div className='flex justify-center items-center'>
             <button type='submit' onClick={handleLikeStatus}>
-              <AiOutlineLike className='size-5' />
+              <AiOutlineLike className='size-6 ' />
             </button>
             <p className='ml-2'>{likesCount}</p>
             <button type='submit' onClick={handleDislikeStatus} >

@@ -14,7 +14,7 @@ export const getFeed = async () => {
 
 export const toggleLike = async (postId) => {
     const response = await axiosInstance.post(`/post/${postId}/toggleLike`);
-
+    console.log(response.data.statusCode);
     return response.data;
 };
 
