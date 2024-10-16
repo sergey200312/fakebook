@@ -54,7 +54,9 @@ router.get('/user/me', passport.authenticate('jwt', {session: false }), UserCont
 
 router.put('/profile/edit', passport.authenticate('jwt', {session: false }), UserController.editProfile);
 
-router.get('/liked-posts', passport.authenticate('jwt', {session: false }), PostController.getLikedPosts )
+router.get('/liked-posts', passport.authenticate('jwt', {session: false }), PostController.getLikedPosts );
+
+router.get('/post/:id', passport.authenticate('jwt', {session: false }), PostController.getPostDetail);
 
 
 module.exports = router;

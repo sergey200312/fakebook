@@ -2,6 +2,7 @@ const asyncHandler = require('express-async-handler');
 const Post = require('../models/Post');
 const { validationResult, body } = require('express-validator');
 const User = require('../models/User');
+const Comment = require('../models/Comment')
 
 
 exports.create_post = [
@@ -38,7 +39,18 @@ exports.get_posts = asyncHandler(async (req, res, next) => {
         return res.status(400).json({ message: 'Посты не найдены' });
     }
 
-    return res.status(200).json({ message: 'Посты найдены', posts});
+    return res.status(200).json({ message: 'Посты найдены', posts });
+});
+
+exports.getPostDetail = asyncHandler(async (req, res, next) => {
+    const { id } = req.params;
+    const post = await Post.findById(id).exec();
+
+    if (!post) {
+        return res.status(404).json({ message: 'Пост не найден'})
+    }
+
+    res.status(200).json({ post })
 });
 
 exports.getFeed = asyncHandler(async (req, res, next) => {
@@ -90,6 +102,8 @@ exports.toggleLike = asyncHandler(async (req, res, next) => {
 
 });
 
+
+
 exports.toggleDislike = asyncHandler(async (req, res, next) => {
     const userId = req.user.id;
     const { postId } = req.params;
@@ -118,6 +132,17 @@ exports.toggleDislike = asyncHandler(async (req, res, next) => {
 
     return res.status(200).json({ message: isDislikes? 'Лайк убран' : 'Лайк поставлен', dislikes: post.dislikes, count: post.dislikes.length})
 });
+
+// exports.getComment = asyncHandler(async (req, res, next) => {
+//     const { postId } = res.params;
+//     const comment = await Comment.find({ post: postId }).sort({ createdAt: 1 }).exec();
+
+//     if (!comment) {
+//         return res.status(404).json({ message: 'Комментарии не найдены' })
+//     }
+//     return res.status(200).json({ comment })
+
+// })
 
 exports.getLikedPosts = asyncHandler(async (req, res, next) => {
     const userId = req.user.id;

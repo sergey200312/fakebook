@@ -5,8 +5,13 @@ import { toggleLike, toggleDislike } from "../api/postApi";
 import { useMutation } from "react-query";
 import { AiOutlineLike } from "react-icons/ai";
 import { AiOutlineDislike } from "react-icons/ai";
+import { GoComment } from "react-icons/go";
+import { getComments } from "../api/commentApi";
+import { useQuery } from "react-query";
 
 export default function PostItem({ post }) {
+
+  const [showComment, setShowComment] = useState(false);
   const [likesCount, setLikesCount] = useState(post.likes.length);
   const [dislikesCount, setDislikesCount] = useState(post.dislikes.length);
 
@@ -40,6 +45,11 @@ export default function PostItem({ post }) {
     setDislikeMutation.mutate();
   };
 
+  const handleShowComments = (e) => {
+    e.preventDefault();
+    setShowComment(!showComment);
+  }
+
   return (
     <>
       <div key={post._id} className="mb-5 p-4 text-white bg-gray-800 rounded-xl ">
@@ -60,11 +70,16 @@ export default function PostItem({ post }) {
               <AiOutlineDislike className='size-5 ml-6' />
             </button>
             <p className='ml-2'>{dislikesCount}</p>
+            <button type='submit' onClick={handleShowComments}>
+              <GoComment className='size-5 ml-6' />
+            </button>
           </div>
         </div>
-        <div>
-          <CommentList postId={post._id} />
-        </div>
+        {showComment && (
+          <div>
+            <CommentList postId={post._id} />
+          </div>
+        )}
       </div>
     </>
   );

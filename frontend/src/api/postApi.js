@@ -6,6 +6,7 @@ export const getPosts = async (userId) => {
     return response.data
 };
 
+
 export const getFeed = async () => {
     const response = await axiosInstance.get('/feed');
 
