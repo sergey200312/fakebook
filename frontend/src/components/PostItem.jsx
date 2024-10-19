@@ -60,6 +60,15 @@ export default function PostItem({ post }) {
           <p>{formattedDatePost(post.createdAt)}</p>
         </div>
         <p>{post.content}</p>
+        {post.image && (
+          <div className='mt-6 mb-6'>
+            <img
+              src={post.image}
+              alt={post.title}
+              className='object-cover w-1/3 rounded-lg' />
+          </div>
+        )}
+
         <div className='flex gap-6'>
           <div className='flex justify-center items-center'>
             <button type='submit' onClick={handleLikeStatus}>

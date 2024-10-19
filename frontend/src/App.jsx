@@ -11,6 +11,7 @@ import ReceivedRequestPage from './pages/ReceivedRequestPage.jsx';
 import UsersPage from './pages/UsersPage.jsx';
 import UserFeed from './pages/UserFeed.jsx';
 import Modal from 'react-modal';
+import PostCreatePage from './pages/PostCreatePage.jsx';
 
 Modal.setAppElement('#root')
 
@@ -29,6 +30,7 @@ function App() {
           <Route path='/profile/:id' element={<ProfilePage />} />
           <Route path="/users" element={<UsersPage />} />
           <Route path='/feed' element={ <UserFeed />} />
+          <Route path='/new' element={ <PostCreatePage />} />
         </Route>
       </Routes>
     </Router>

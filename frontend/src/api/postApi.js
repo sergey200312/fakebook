@@ -23,4 +23,20 @@ export const toggleDislike = async (postId) => {
     const response = await axiosInstance.post(`/post/${postId}/toggleDislike`);
 
     return response.data;
+};
+
+export const createPost = async (postData) => {
+    const response = await axiosInstance.post('/post/create', postData)
+
+    return response.data;
+};
+
+export const imageUpload = async (formData) => {
+    const response = await axiosInstance.post('/upload', formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        }
+    })
+
+    return response.data;
 }
