@@ -19,14 +19,22 @@ export default function CommentList({ postId }) {
         <div className='mt-6'>
             Комментарии
             {mainComments.map(mainComment => (
-                <div key={mainComment._id} className='mb-4'>
-                    <p>{mainComment.text}</p>
+                <div key={mainComment._id} className='mb-4 border-l-[1px] '>
+                    <div className='flex justify-start gap-2 mb-4'>
+                        <img
+                            src={mainComment.user.firstName} />
+                        <p>{mainComment.text}</p>
+                    </div>
                     <div className='ml-5'>
                         {childComments
                             .filter(child => child.parentComment === mainComment._id)
                             .map(childComment => (
-                                <div key={childComment._id} className='p-2 border-l-2 bg-gray-600'>
-                                    <p>{childComment.text}</p>
+                                <div key={childComment._id} className='p-2 border-l-[1px]'>
+                                    <div className='flex justify-start gap-2'>
+                                        <img
+                                            src={childComment.user.firstName} />
+                                        <p>{childComment.text}</p>
+                                    </div>
                                 </div>
                             ))}
                     </div>

@@ -5,7 +5,7 @@ const { validationResult, body } = require('express-validator');
 
 exports.get_comment = asyncHandler(async (req, res, next) => {
     const { postId } = req.query;
-    const comments = await Comment.find({ post: postId }).exec()
+    const comments = await Comment.find({ post: postId }).populate({path: 'user', select: 'firstName lastName'}).exec()
 
     if (!postId) {
         return res.status(400).json({ message: 'postId обязателен'})
