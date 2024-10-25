@@ -16,7 +16,7 @@ export default function CommentList({ postId }) {
     console.log(mainComments);
     console.log(childComments)
     return (
-        <div className='mt-6'>
+        <div className='mt-6 rounded-1  border p-4'>
             Комментарии
             {mainComments.map(mainComment => (
                 <div key={mainComment._id} className='mb-4 border-l-[1px] '>

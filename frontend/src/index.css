@@ -5,5 +5,5 @@
 
 body {
     @apply font-sans;
-    @apply bg-gray-900;
+    @apply bg-white;
 }

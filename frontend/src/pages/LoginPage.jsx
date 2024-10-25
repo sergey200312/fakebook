@@ -28,16 +28,17 @@ export default function LoginPage() {
 
         try {
             const response = await axios.post(`${import.meta.env.VITE_API_URL}/login`, formData);
+            console.log(response.data)
             console.log('debbug')
             console.log(response.data.user._id)
             dispatch(login({
                 token: response?.data.token,
-                currentUser: response?.data?.user._id
+                currentUser: response?.data?.user
 
             }));
             notify();
             setTimeout(() => {
-                navigate('/friends');
+                navigate('/home');
             }, 500)
             // navigate('/friends');
 

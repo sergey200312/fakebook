@@ -14,10 +14,13 @@ export default function PostItem({ post }) {
   const [showComment, setShowComment] = useState(false);
   const [likesCount, setLikesCount] = useState(post.likes.length);
   const [dislikesCount, setDislikesCount] = useState(post.dislikes.length);
+  const [isLiked, setIsLiked] = useState(false);
+  const [isDisliked, setIsDisliked] = useState(false);
 
   const setDislikeMutation = useMutation(() => toggleDislike(post._id), {
     onSuccess: (data) => {
       setDislikesCount(data.count);
+      setIsDisliked(!isDisliked);
       console.log(data)
     },
     onError: (error) => {
@@ -28,6 +31,7 @@ export default function PostItem({ post }) {
   const setLikeMutation = useMutation(() => toggleLike(post._id), {
     onSuccess: (data) => {
       setLikesCount(data.count);
+      setIsLiked(!isLiked);
       console.log(data)
     },
     onError: (error) => {
@@ -52,12 +56,12 @@ export default function PostItem({ post }) {
 
   return (
     <>
-      <div key={post._id} className="mb-5 p-4 text-white bg-gray-800 rounded-xl ">
+      <div key={post._id} className="mb-5 p-4 border shadow-xl rounded-xl ">
         <div className="flex justify-between mb-2">
-          <p>
+          <p className='font-bold'>
             {post.user.firstName} {post.user.lastName}
           </p>
-          <p>{formattedDatePost(post.createdAt)}</p>
+          <p className='text-sm text-gray-600'>{formattedDatePost(post.createdAt)}</p>
         </div>
         <p>{post.content}</p>
         {post.image && (
@@ -69,18 +73,18 @@ export default function PostItem({ post }) {
           </div>
         )}
 
-        <div className='flex gap-6'>
+        <div className='flex mt-2'>
           <div className='flex justify-center items-center'>
             <button type='submit' onClick={handleLikeStatus}>
-              <AiOutlineLike className='size-6 ' />
+              <AiOutlineLike className={`size-5 ${isLiked? 'fill-red-500' : 'fill-current'} transform transition-transform duration-200 hover:scale-110`} />
             </button>
             <p className='ml-2'>{likesCount}</p>
             <button type='submit' onClick={handleDislikeStatus} >
-              <AiOutlineDislike className='size-5 ml-6' />
+              <AiOutlineDislike className={`size-5 ml-12 ${isDisliked? 'fill-red-500' : 'fill-current'} transform transition-transform duration-200 hover:scale-110`} />
             </button>
             <p className='ml-2'>{dislikesCount}</p>
             <button type='submit' onClick={handleShowComments}>
-              <GoComment className='size-5 ml-6' />
+              <GoComment className='size-5 ml-12 transform transition-transform duration-200 hover:scale-110' />
             </button>
           </div>
         </div>

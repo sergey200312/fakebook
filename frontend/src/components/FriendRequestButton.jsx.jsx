@@ -101,7 +101,7 @@ export default function FriendRequestButton({ userId, sentRequestStatus, friendS
             <button
                 type='button'
                 onClick={handleSubmit}
-                className='p-1 bg-lime-500 rounded-lg text-white hover:bg-lime-800'>{getButtonLabel()}</button>
+                className='p-1 rounded-lg text-black hover:bg-red-600 hover:text-white border'>{getButtonLabel()}</button>
         </>
     )
 }

@@ -4,8 +4,7 @@ import { fetchProfileDetails } from "../api/userApi";
 import { useParams } from "react-router-dom";
 import { formattedDate } from "../utils/DateFormatter";
 import { useSelector } from "react-redux";
-import FriendRequestButton from "./FriendRequestButton.jsx";
-import EditProfile from "./EditProfile.jsx";
+
 
 export default function ProfileHeader() {
   const { id } = useParams();
@@ -22,7 +21,7 @@ export default function ProfileHeader() {
   const isCurrentUser = id === currentUser;
 
   return (
-    <div className=" p-10 rounded-xl flex-grow">
+    <div className="mt-12 ml-10 p-10 rounded-xl border flex-grow shadow-xl ">
       <div className='flex flex-col'>
         <div className="flex mb-20">
           <div className=''>
@@ -51,22 +50,20 @@ export default function ProfileHeader() {
           ) : (
             <div className="flex justify-around items-center">
               <div className='flex flex-col'>
-                <p className="text-white text-center font-bold mb-2">{data.friendsCount}</p>
+                <p className=" text-center font-bold mb-2">{data.friendsCount}</p>
                 <p className='text-gray-400 font-serif'>Друзья</p>
               </div>
               <div>
-                <p className="text-white text-center font-bold mb-2">{data.subscriptionsCount} </p>
+                <p className=" text-center font-bold mb-2">{data.subscriptionsCount} </p>
                 <p className='text-gray-400 font-serif'>Подписчики</p>
               </div>
               <div>
-                <p className="text-white text-center font-bold mb-2">{data.subscribersCount} </p>
+                <p className=" text-center font-bold mb-2">{data.subscribersCount} </p>
                 <p className='text-gray-400 font-serif'>Подписки</p>
               </div>
 
             </div>
           )}
-        </div>
-        <div className='border-b border border-gray-700 '>
         </div>
 
         {/* <button onClick={openModal}>Открыть модальное окно</button>

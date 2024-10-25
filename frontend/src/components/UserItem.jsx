@@ -2,7 +2,7 @@ import React from 'react';
 import FriendRequestButton from './FriendRequestButton.jsx';
 import { Link } from 'react-router-dom';
 
-// Используем React.memo для предотвращения лишних рендеров
+
 export default function UserItem({ users, type }) {
     console.log('FriendItem render');
 

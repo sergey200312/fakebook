@@ -19,7 +19,7 @@ export default function PostsList({ feedType }) {
       <p className='text-white font-bold text-2xl mb-4'>Посты</p>
       <div className="flex flex-col items-start">
         {data?.posts.map((post) => (
-          <div className="w-full border-2 border-gray-900 mb-5">
+          <div className="w-full  mb-5">
             <PostItem post={post} />
           </div>
         ))}
