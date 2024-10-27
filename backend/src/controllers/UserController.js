@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const asyncHandler = require('express-async-handler');
+const Notification = require('../models/Notification')
 
 
 const getProfileDetails = asyncHandler(async (req, res, next) => {
@@ -295,6 +296,17 @@ const upload = async(req, res) => {
     }
 };
 
+const getallNotification = asyncHandler( async(req, res, next) => {
+    const userId = req.user.id;
+
+    const result = await Notification.updateMany(
+        { userId, isRead: false },
+        { isRead: true },
+    )
+
+    return res.status(200).json({ message: 'Уведомления обновлены', result })
+});
+
 
 
 module.exports = {
@@ -310,5 +322,6 @@ module.exports = {
     getRandomUsers,
     getCurrentUserProfile,
     upload,
-    editProfile
+    editProfile,
+    getallNotification
 };

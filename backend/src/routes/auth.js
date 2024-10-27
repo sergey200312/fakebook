@@ -7,6 +7,7 @@ const passport = require('passport');
 const PostController = require('../controllers/PostController');
 const CommentController = require('../controllers/CommentController');
 const upload = require('../config/multer');
+const notification = require('../middleware/notification');
 
 router.post('/register', registerValidator, validateResult, AuthController.register);
 
@@ -44,9 +45,9 @@ router.get('/comments/get', passport.authenticate('jwt', {session: false }), Com
 
 router.get('/feed',  passport.authenticate('jwt', {session: false }), PostController.getFeed);
 
-router.post('/post/:postId/toggleLike', passport.authenticate('jwt', {session: false }), PostController.toggleLike);
+router.post('/post/:postId/toggleLike', passport.authenticate('jwt', {session: false }), PostController.toggleLike, notification.notification);
 
-router.post('/post/:postId/toggleDislike', passport.authenticate('jwt', {session: false }), PostController.toggleDislike);
+router.post('/post/:postId/toggleDislike', passport.authenticate('jwt', {session: false }), PostController.toggleDislike, notification.notification);
 
 router.post('/upload', passport.authenticate('jwt', {session: false }), upload.single("image"), UserController.upload);
 
@@ -57,6 +58,8 @@ router.put('/profile/edit', passport.authenticate('jwt', {session: false }), Use
 router.get('/liked-posts', passport.authenticate('jwt', {session: false }), PostController.getLikedPosts );
 
 router.get('/post/:id', passport.authenticate('jwt', {session: false }), PostController.getPostDetail);
+
+router.get('/notifications', passport.authenticate('jwt', {session: false }), UserController.getallNotification);
 
 
 module.exports = router;

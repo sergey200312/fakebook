@@ -18,14 +18,14 @@ const NotificationSchema = new Schema({
         ref: 'Post',
         require: true
     },
-    type: {
-        type: String,
-        require: true,
-        trim: true,
-    },
     createdAt: {
         type: Date,
         default: Date.now
+    },
+    message: {
+        type: String,
+        required: true,
+        trim: true,
     },
     isRead: {
         type: Boolean,

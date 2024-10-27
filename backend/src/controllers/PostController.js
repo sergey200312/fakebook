@@ -98,8 +98,12 @@ exports.toggleLike = asyncHandler(async (req, res, next) => {
 
     await post.save();
 
-    return res.status(200).json({ message: isLikes? 'Лайк убран' : 'Лайк поставлен', likes: post.likes, count: post.likes.length})
+    res.status(200).json({ message: isLikes? 'Лайк убран' : 'Лайк поставлен', likes: post.likes, count: post.likes.length});
 
+    req.postId = postId;
+    req.notificationMessage = isLikes ? 'удалил лайк' : 'поставил лайк';
+    
+    next();
 });
 
 
@@ -130,7 +134,12 @@ exports.toggleDislike = asyncHandler(async (req, res, next) => {
 
     await post.save();
 
-    return res.status(200).json({ message: isDislikes? 'Лайк убран' : 'Лайк поставлен', dislikes: post.dislikes, count: post.dislikes.length})
+    res.status(200).json({ message: isDislikes? 'Лайк убран' : 'Лайк поставлен', dislikes: post.dislikes, count: post.dislikes.length})
+
+    req.postId = postId;
+    req.notificationMessage = isDislikes ? 'удалил дизлайк' : 'поставил дизлайк';
+
+    next();
 });
 
 // exports.getComment = asyncHandler(async (req, res, next) => {

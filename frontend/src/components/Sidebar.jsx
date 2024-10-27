@@ -18,7 +18,7 @@ export default function Sidebar() {
                     </li>
                     <li className='mb-4 hover:text-gray-700 flex gap-2'>
                         <FaUser />
-                        <Link to={`/profile/${currentUser._id}`}>Профиль</Link>
+                        <Link to='/profile'>Профиль</Link>
                     </li>
                     <li className='mb-4 hover:text-gray-700 flex gap-2 '>
                         <RiUserSearchLine />

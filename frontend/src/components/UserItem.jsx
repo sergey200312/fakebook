@@ -19,7 +19,7 @@ export default function UserItem({ users, type }) {
                                 className='w-12 h-12 rounded-full'
                             />
                         </div>
-                        <p>{user.firstName} {user.lastName}</p>
+                        <p className='text-black'>{user.firstName} {user.lastName}</p>
                     </Link>
                     <FriendRequestButton
                         userId={user._id}
